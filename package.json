@@ -2,13 +2,24 @@
     "devDependencies": {
         "@babel/preset-react": "^7.0.0",
         "@symfony/webpack-encore": "^0.22.0",
+        "@types/react": "^16.8.19",
+        "@types/react-dom": "^16.8.4",
+        "@types/react-select": "^2.0.19",
+        "core-js": "^3.1.3",
         "cropperjs": "^1.5.1",
+        "form-serialize": "latest",
         "node-sass": "^4.11.0",
+        "react": "^16.8.6",
+        "react-dom": "^16.8.6",
         "react-dropzone": "^10.1.5",
+        "react-if": "^3.4.0",
+        "react-select": "latest",
         "sass-loader": "^7.1.0",
+        "styled-components": "latest",
         "ts-loader": "^5.4.5",
         "typescript": "^3.4.5",
-        "webpack-notifier": "^1.6.0"
+        "webpack-notifier": "^1.6.0",
+        "react-nprogress": "latest"
     },
     "license": "UNLICENSED",
     "private": true,
@@ -22,5 +33,8 @@
         "bootstrap": "^4.3.1",
         "jquery": "^3.4.1",
         "popper.js": "^1.14.7"
+    },
+    "extra": {
+        "public-dir": "./"
     }
 }

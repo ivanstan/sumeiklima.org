@@ -85,7 +85,7 @@ class User implements UserInterface
     /**
      * @var string
      *
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      *
      * @Assert\NotBlank(message="Please, upload the product brochure as a PDF file.")
      * @Assert\File(mimeTypes={ "image/png", "image/jpg", "image/jpeg" })
@@ -126,6 +126,11 @@ class User implements UserInterface
         $roles[] = self::ROLE_USER;
 
         return array_unique($roles);
+    }
+
+    public function hasRole(string $role): bool
+    {
+        return in_array($role, $this->getRoles(), true);
     }
 
     public function setRoles(array $roles): void
@@ -209,7 +214,7 @@ class User implements UserInterface
         $this->preference = $preference;
     }
 
-    public function getAvatar(): string
+    public function getAvatar(): ?string
     {
         return $this->avatar;
     }

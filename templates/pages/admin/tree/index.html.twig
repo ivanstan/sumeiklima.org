@@ -1,0 +1,60 @@
+{% extends 'pages/admin/admin.html.twig' %}
+
+{% block content %}
+    <div class="container-fluid py-3">
+        <div class="row">
+            <div class="col-12">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <td>Photo</td>
+                        <td>Type</td>
+                        <td>Age</td>
+                        <td>Date</td>
+                        <td>IP</td>
+                        <td width="50px">Enable</td>
+                    </tr>
+                    </thead>
+                    {% for item in pager.currentPageResults %}
+                        <tr>
+                            <td>
+                                {% if item.photo %}
+                                    <a href="{{ app.request.getBaseURL() ~ '/' ~ item.photo }}" target="_blank">
+                                        <img src="{{ app.request.getBaseURL() ~ '/' ~ item.photo }}" width="100px">
+                                    </a>
+                                {% else %}-{% endif %}
+                            </td>
+                            <td>
+                                {% if item.type %}
+                                    {% if item.type.serbian %}
+                                        {{ item.type.serbian }}
+                                    {% endif %}
+                                    {% if item.type.latin %}
+                                        <i>{{ item.type.latin }}</i>
+                                    {% endif %}
+                                {% else %}-{% endif %}
+                            </td>
+                            <td>
+                                {{ item.age|default('-') }}
+                            </td>
+                            <td>
+                                {{ item.date|date('m.d.Y') }}
+                            </td>
+                            <td>
+                                {{ item.ip|default('-') }}
+                            </td>
+                            <td>
+                                <a class="btn btn-success" href="{{ path('admin_tree_enable', {tree: item.id}) }}">
+                                    <i class="fa fa-check" aria-hidden="true"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+
+                </table>
+
+                {#                {% include 'components/pager.html.twig' with {pager: pager} only %}#}
+            </div>
+        </div>
+    </div>
+{% endblock %}

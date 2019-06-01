@@ -2,8 +2,8 @@
 
 namespace App\Service\Traits;
 
-use App\Entity\System\File;
-use App\Entity\System\User;
+use App\Entity\File;
+use App\Entity\User;
 
 trait FileSystemAwareTrait
 {

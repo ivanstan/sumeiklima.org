@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service\System;
+namespace App\Service;
 
 use App\Service\Traits\FileSystemAwareTrait;
 
@@ -8,7 +8,7 @@ class FileManager
 {
     use FileSystemAwareTrait;
 
-    public function __construct(string $projectDir)
+    public function __construct($projectDir)
     {
         $this->rootDir = $projectDir;
     }
@@ -32,5 +32,10 @@ class FileManager
     public function remove(string $path): bool
     {
         return unlink($path);
+    }
+
+    public function getRootDir(): string
+    {
+        return $this->rootDir;
     }
 }

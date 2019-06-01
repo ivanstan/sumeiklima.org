@@ -36,9 +36,9 @@ class UserListener
 //            $user->setAvatar($this->getUIAvatar($user->getEmail()));
         }
 
-        if ($fileName = $user->getAvatar()) {
-            $user->setAvatar(new File($this->manager->getTargetDirectory().'/'.$fileName));
-        }
+//        if ($fileName = $user->getAvatar()) {
+//            $user->setAvatar(new File($this->manager->getTargetDirectory().'/'.$fileName));
+//        }
     }
 
     public function getUIAvatar(string $name): string

@@ -1,11 +1,14 @@
+@import "./variables";
 @import "~bootstrap/scss/bootstrap";
+@import "./_front";
+@import "./progress";
 
 html {
-  height: 100%;
+  height: 100vh;
 }
 
 body {
-  height: 100%;
+  height: 100vh;
 }
 
 .vertical-align {
@@ -29,4 +32,8 @@ body {
 
 .cursor-pointer {
   cursor: pointer;
+}
+
+.my-select__menu {
+  z-index: 5 !important;
 }
