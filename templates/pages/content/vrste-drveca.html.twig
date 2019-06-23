@@ -1,0 +1,85 @@
+{% extends 'pages/container.html.twig' %}
+
+{% block title %}Vrste drveća | {{ parent() }}{% endblock %}
+
+{% block content %}
+    <div class="container pb-5 bg-light py-3">
+        <h1 class="p-3">Vrste drveća</h1>
+
+        <h2 class="p-3">Crni bor</h2>
+
+        <div class="row">
+            <div class="forest" style="background-image: url({{ asset('public/images/bor.jpg') }})"></div>
+        </div>
+
+        <p class="p-3">Rod Pinus, sa više od 110 opisanih vrsta, predstavlja najveći recentni rod četinara. Prirodna
+            distribucija
+            roda ograničena je na severnu hemisferu, izuzev jedne populacije P. merkusii koja se nalazi južno od
+            ekvatora na Sumatri [<a href="#refs">1</a>]. Crni bor (Pinus nigra) je jedan od dugoživećih vrsta četinara, preko 400 godina.
+            [<a href="#refs">2</a>]. Ekološki faktori bitno utiču na maksimalnu visinu crnog bora, a u optimalnim uslovima može da izraste i
+            do 40 metara u visinu. [<a href="#refs">2</a>]. Može da se održi u krajnje ekstremnim uslovima nagiba i podloge, na često
+            skeletnom zemljištu i na gotovo potpuno okomitim krečnjačkim, dolomitskim i serpentinskim liticama. Zbog
+            toga predstavlja jednu od najvažnijih vrsta za pošumljavanje suvih i kamenitih terena [<a href="#refs">3</a>]. Drvo crnog bora
+            se koristilo u brodogradnji. Crni bor je cenjen i za uređenje, kako u parkovima (izolovano drveće ili u
+            grupama), tako i u urbanom i industrijskom kontekstu zbog tolerancije na zagađenje.</p>
+
+        <h2 class="p-3">Breza</h2>
+
+        <div class="row bg-light">
+            <div class="forest" style="background-image: url({{ asset('public/images/breza.jpg') }})"></div>
+        </div>
+
+        <p class="p-3">Srebrna breza (Betula pendula Roth) i maljava breza (Betula pubescens Ehrh.) su kratkotrajne
+            (životni vek je
+            uglavnom od 90 do 100 godina), relativno male lišćarske vrste koje se javljaju u većem delu Evrope sve do
+            centralnog Sibira [<a href="#refs">4</a>]. Srebrna breza je drvo koje dostiže visinu od 30 m, a maljava breza retko prelazi
+            visinu od 20 m. Iz razloga što može da toleriše širok spektar prirodnih uslova, a pre svega siromašna tla,
+            breza se često koristi za obnavljanje i poboljšanje tla, tako da se druge vrste drveća mogu posaditi
+            kasnije. Srebrna breza se koristi za pravljenje skupog furnira i ukrasnih proizvoda od drveta, dok se
+            maljava breza koristi za proizvodnju celuloze i jeftinog ogrevnog drveta. Breze rastu u planinskim
+            područjima, te su veom bitne u stabilizaciji tla i sprečavanju erozije zemljišta. [<a href="#refs">5</a>]</p>
+
+        <h2 class="p-3">Hrast kitnjak</h2>
+
+        <div class="row bg-light">
+            <div class="forest" style="background-image: url({{ asset('public/images/hrast.jpg') }})"></div>
+        </div>
+
+        <p class="p-3">Hrast kitnjak (Quercus petraea) je vrsta koja se sreće širom Evrope, od Skandinavije do
+            Iberijskog,
+            Apeninskog i Balkanskog poluostrva. Voli svetlost, plodnu i često stenovitu podlogu. Raste uglavnom na
+            padinama i vrhovima brda. Odgovara im i velika količina svetlosti. Veoma retko se sreću čiste šume hrasta u
+            prirodnim uslovima, uglavnom čini mešovite šume sa grabom (Carpinus betulus), javorom (Acer campestre, Acer
+            platanoides) i dr. Sve veća potražnja za ovim drvetom i smanjenje prirodnih šuma, podstakli su razvoj
+            savremenog uzgoja. Hrast kitnjak se koristi kao kvalitetno ogrevno drvo, drvo za gradnju i nameštaj. Takođe
+            se od hrastovine prave veoma kvalitetna burad za vino i alkohol, a kroz istoriju se koristilo za izgradnju
+            brodova. [<a href="#refs">6</a>]
+        </p>
+
+        <section class="p-3" id="refs">
+            <h4>Izvor:</h4>
+            <div class="ml-3">
+                <p>[1] Šarac Zorica, Doktorska disertacija (2014), UTVRĐIVANJE VARIJABILNOSTI I DIFERENCIJACIJE
+                    PRIRODNIH
+                    POPULACIJA PINUS NIGRA ARNOLD U SRBIJI KORIŠĆENJEM FITOHEMIJSKIH I MOLEKULARNIH MARKERA, Univerzitet
+                    u
+                    Beogradu, Biološki fakultet.
+                    <a target="_blank"
+                       href="https://www.pmf.ni.ac.rs/download/master/biologija/radovi/2017/2017-06.06-st.pdf">https://www.pmf.ni.ac.rs/download/master/biologija/radovi/2017/2017-06.06-st.pdf</a>
+                </p>
+                <p>[2] <a target="_blank" href="http://ies-ows.jrc.ec.europa.eu/efdac/download/Atlas/pdf/Pinus_nigra.pdf">http://ies-ows.jrc.ec.europa.eu/efdac/download/Atlas/pdf/Pinus_nigra.pdf</a></p>
+                <p>[3] Pavlović M. (2018): Ekofiziološke adaptacije vrsta Pinus Nigra ARN., Aesculus Hippocastanum L. i
+                    Platanus Acerofilia (AIT.) WILLD. u urbanim sredinama sa različitim izvorom zagađenja-Doktorska
+                    disertacija,
+                    Biološki fakultet, Beograd</p>
+                <p>[4] <a target="_blank" href="http://www.stonelanegardens.com/">www.stonelanegardens.com</a></p>
+                <p>[5] European Atlas of Forest Tree Species: Betula pendula, betula pubescens and other birches in
+                    Europe:
+                    distribution, habitat, usage and threaths, P. Beck, G. Caudillo, D. De Rigo, W. Tinner, 2016.</p>
+                <p>[6] European Atlas of Forest Tree Species: Quercus robur and Quercus petraea in Europe: distribution,
+                    habitat, usage and threaths, E. Eaton, G. Caudillo, S. Oliveira, D. De Rigo, 2016.</p>
+            </div>
+        </section>
+    </div>
+
+{% endblock %}

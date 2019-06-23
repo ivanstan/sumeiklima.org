@@ -4,3 +4,24 @@
 
 security_logout:
   path: /logout
+
+app_uloga_suma:
+  path:         /uloga-suma
+  controller:   Symfony\Bundle\FrameworkBundle\Controller\TemplateController
+  defaults:
+    template: pages/content/uloga-sume.html.twig
+  methods: GET
+
+app_vrste_drveca:
+  path:         /vrste-drveca
+  controller:   Symfony\Bundle\FrameworkBundle\Controller\TemplateController
+  defaults:
+    template: pages/content/vrste-drveca.html.twig
+  methods: GET
+
+app_projekat:
+  path:         /o-projektu
+  controller:   Symfony\Bundle\FrameworkBundle\Controller\TemplateController
+  defaults:
+    template: pages/content/projekat.html.twig
+  methods: GET

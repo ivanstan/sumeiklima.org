@@ -1,0 +1,56 @@
+{% extends 'pages/container.html.twig' %}
+
+{% block title %}Uloga šuma | {{ parent() }}{% endblock %}
+
+{% block content %}
+    <div class="container pb-5 bg-light">
+        <div class="row bg-light">
+            <div class="col-12 p-0 overflow-hidden">
+                <div class="forest" style="background-image: url({{ asset('public/images/uloga-sume.jpg') }})">
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-light p-3">
+            <h1>Uloga šuma</h1>
+            <p>Prema Organizaciji ujedinjenih nacija za hranu i poljoprivredu uloga šuma je višestruka [<a
+                        href="#1">1</a>]:</p>
+
+            <div>
+                <ul>
+                    <li>prevencija erozije zemljišta (denudacije) na terenima sa velikim nagibom</li>
+                    <li>smanjenje rizika od lavina i naglog topljenja snega u oblastima koje su zimi prekrivene snegom
+                    </li>
+                    <li>zaštita od eolske erozije (vetar)</li>
+                    <li>zaštita od abrazije (šume mangrova)</li>
+                    <li>pomaže u infiltraciji vode i nutritijenata u podzemne slojeve</li>
+                    <li>utočište za ugrožene vrste i „banka gena“ (u tropskim kišnim šumama u Peruu na samo jednom
+                        hektaru
+                        površine moguće je naći i do 300 različitih vrsta)
+                    </li>
+                    <li>dom domorodačkim plemenima (preko 200 miliona ljudi živi u tropskim kišnim šumama)</li>
+                    <li>resurs za drvno-prerađivačku i papirnu industriju (međunarodna trgovina drvnim proizvodima
+                        iznosi 36
+                        milijardi $US, a papirom i pulpom 60 milijardi $ US)
+                    </li>
+                    <li>stanište biljaka i gljiva koje se koriste u medicinske svrhe i ishrani
+                        u fazi rasta šuma apsorbuje ugljen-dioksid
+                    </li>
+                    <li>reguliše mikroklimatske uslove (temperatura u letnjim mesecima je niža, a vlažnost veća; tri
+                        dobro
+                        locirana drveta oko kuće mogu smanjiti upotrebu klima uređaja i za 15%).
+                    </li>
+                </ul>
+
+                <section>
+                    <h4>Izvor:</h4>
+                    <div class="ml-3" id="1">
+                        <p><a target="_blank" href="http://www.fao.org/docrep/t0829e/T0829E05.htm">http://www.fao.org/docrep/t0829e/T0829E05.htm</a>
+                        </p>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

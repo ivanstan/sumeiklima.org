@@ -49,4 +49,16 @@ class TreeController extends AbstractController
 
         return $this->redirectToRoute('admin_trees');
     }
+
+    /**
+     * @Route("/tree/enable/{tree}", name="admin_tree_delete")
+     * @IsGranted("ROLE_ADMIN")
+     */
+    public function delete(Tree $tree): Response
+    {
+        $this->getDoctrine()->getManager()->remove($tree);
+        $this->getDoctrine()->getManager()->flush();
+
+        return $this->redirectToRoute('admin_trees');
+    }
 }

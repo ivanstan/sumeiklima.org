@@ -157,6 +157,12 @@ export class IndexMode extends React.Component<IndexModePropsInterface, IndexMod
                     </button>
                 </div>
             </div>
+            <div className={"mt-2"} style={{fontSize: 12}}>
+                <p className={"text-muted"}>*** Algoritam na osnovu kog je izračunata pogodnost za pošumljavanja ne razmatra
+                    planska i strateška dokumenta, zbog čega se svim korisnica preporučuje da pre sadnje drveća
+                    kontaktiraju nadležne institucije.</p>
+                <p className={"text-muted"}>*** <a href={globals.baseUrl + `/download/${this.props.dataSource}`}> Preuzimanje podataka.</a></p>
+            </div>
         </div>;
     }
 }

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {getStyle} from "./styles";
 import styled from 'styled-components';
-import {IndexMode, getCategory} from "./IndexMode";
+import {getCategory, IndexMode} from "./IndexMode";
 import {TreeMode} from "./TreeMode";
 import {TreeService} from "../../model/TreeService";
 
@@ -63,6 +63,9 @@ export class TreeIndexMap extends React.Component<any, TreeIndexMapStateInterfac
             zoom: 7,
             center: mapCenter,
             styles: getStyle(),
+            zoomControlOptions: {
+                position: google.maps.ControlPosition.RIGHT_TOP
+            },
         });
 
         this.setData(this.state.dataSource);
@@ -139,16 +142,31 @@ export class TreeIndexMap extends React.Component<any, TreeIndexMapStateInterfac
                     });
 
                     marker.addListener('click', () => {
-                        const { type } = marker.data;
+                        const {type} = marker.data;
+                        let content = '';
 
-                        let content = 'Nepoznata vrsta';
+                        let typeString = 'Nepoznata';
 
                         if (type.serbian) {
-                            content = type.serbian;
+                            typeString = type.serbian;
                         }
 
                         if (type.latin) {
-                            content += ` <i>${type.latin}</i>`;
+                            typeString += ` <i>${type.latin}</i>`;
+                        }
+
+                        if (typeString) {
+                            content += `Vrsta: ${typeString}<br>`;
+                        }
+
+                        if (item.age) {
+                            content += `Starost: ${item.age} godina<br>`;
+                        }
+
+                        if (item.photo) {
+                            const image = globals.baseUrl + '/' + item.photo;
+
+                            content += `<br/><img src="${image}" width="200px"/>`;
                         }
 
                         if (content) {
@@ -213,9 +231,9 @@ export class TreeIndexMap extends React.Component<any, TreeIndexMapStateInterfac
                                                                            dataSource={this.state.dataSource}
                                                                            onDataSourceChange={this.onDataSourceChange}
                 />}
-                {this.state.mode === TreeIndexMap.MODE_TREE && <TreeMode location={this.state.markerLocation}/>}
+                {this.state.mode === TreeIndexMap.MODE_TREE && <TreeMode location={this.state.markerLocation} />}
             </SideNavigation>
-            <div ref={this.mapElement} style={mapElementStyle}/>
+            <div ref={this.mapElement} style={mapElementStyle} />
         </div>
     };
 }

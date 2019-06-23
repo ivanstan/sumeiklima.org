@@ -78,12 +78,34 @@ export class TreeMode extends React.Component<TreeModePropsInterface, TreeModeSt
             .catch(() => callback([value]));
     };
 
+    fileTypeAllowed = file => {
+        if (file.type === "image/jpg") {
+            return true;
+        }
+
+        if (file.type === "image/jpeg") {
+            return true;
+        }
+
+        if (file.type === "image/png") {
+            return true;
+        }
+
+        return false;
+    };
+
     handleFileSelect = event => {
         let f = event.target.files[0];
         let reader = new FileReader();
 
         reader.onload = ((file) => {
             return (event) => {
+                if (!this.fileTypeAllowed(file)) {
+                    this.setState({errorMessage: "Dozvoljeni format slike je jpg ili png."});
+
+                    return;
+                }
+
                 let binaryData = event.target.result;
 
                 let base64String = window.btoa(binaryData);

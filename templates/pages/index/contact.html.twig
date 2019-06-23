@@ -2,17 +2,78 @@
 
 {% block messages %}{% endblock %}
 
+{% block title %}Kontakt | {{ parent() }}{% endblock %}
+
 {% block content %}
-    <div class="container pt-3">
+    <div class="container pt-3 pb-5 bg-light">
         <div class="row">
-            <div class="col-12">
+            <h1 class="px-4">Kontakt</h1>
+            <div class="col-12 d-flex align-items-center">
+                <img src="{{ asset('public/images/CRNOG.png') }}" width="200px" class="mr-4">
+                <p>
+                    Centar za razvoj neformalnog obrazovanja građana – <a href="https://www.facebook.com/crnog1/"
+                                                                          target="_blank">CRNOG</a> je nestranačka,
+                    neprofitna nevladina organizacija koja se bavi
+                    edukacijom građana u oblasti zaštite i unapređenja životne sredine, zdravlja, ljudskih I manjinskih
+                    prava. Osnovana je 2001. godine i do sada je sprovela brojne projekte u ovim oblastima. U proteklih
+                    nekoliko godina organizacija sprovodi aktivnosti u kojima primenom geografskih informacionih sistema
+                    analizira prostor, predlaže mere zaštite i unapređenja životne sredine i rezultatima istraživanja
+                    informiše i edukuje građane o aktuelnim problemima.
+                </p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12 d-flex align-items-center">
+                <img src="{{ asset('public/images/SCS.png') }}" width="200px" class="mr-4">
+                <p>
+                    Fondacija <a target="_blank" href="https://www.serbiancaseforspace.com/">„Srpski Zalog za Svemir”
+                        (Serbian Case for Space – SCS)</a> je osnovana 15. oktobra 2017. godine u Beogradu. SCS je
+                    zamišljen kao “think tank” sa ambicijom da prikaže značaj svemirskih tehnologija i podrži
+                    uključivanje Republike Srbije u svemirski sektor. Fondacija je sastavljena od mladih profesionalaca
+                    sa višegodišnjim iskustvom u naučno-istraživačkom radu i praksom u privatnom sektoru. U svom radu
+                    SCS se ističe kroz podizanje svesti o mnogobrojnim rešenjima koje svemirski sistemi nude u okviru
+                    različitih oblasti (poljoprivrede, transporta, e-medicine, klimatskih promena, itd.). Takođe, SCS
+                    ističe važnost umrežavanja naučnog, privatnog i državnog sektora u Srbiji i njihovo spajanje sa
+                    međunarodnim partnerima. Najzad, članstvo u Komitetu za miroljubivo korišćenje svemira je jedan od
+                    glavnih ciljeva fondacije, i u tu svrhu SCS predstavlja nezavisnu platformu za razvoj svemirske
+                    strategije.
+                </p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12 d-flex align-items-center">
+                <img src="{{ asset('public/images/1CSrbija.png') }}" width="200px" class="mr-4">
+                <p>
+                    Udruženje <a target="_blank" href="http://jedanstepen.org/sr/">Jedan stepen Srbija</a> je
+                    dobrovoljno, nevladino i neprofitno udruženje, osnovano radi delovanja u oblasti zaštite životne
+                    sredine, a posebno u oblasti ublažavanja i prilagođavanja na promene klime. U svom radu Jedan stepen
+                    Srbija se zalaže za uspostavljanje nacionalnog dijaloga o klimatskim promenama u kome treba da
+                    učestvuje društvo u celini, tranziciju na nisko-ugljeničnu ekonomiju zasnovanu na 100% obnovljivim
+                    izvorima energije, uvođenje naknade za emisiju ugljen-dioksida i unapređenje obrazovnog sistema kako
+                    bi se naše društvo pripremilo za mere ublažavanja i prilagođavanja na klimatske promene. Jedan
+                    stepen Srbija je član međunarodnih mreža Climate Action Network Europe i World Alliance for
+                    Efficient Solution kao i nacionalne mreže organizacija civilnog društva Koalicija 27.
+                </p>
+            </div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-6 mx-auto">
                 {% include 'components/messages.html.twig' %}
                 <form method="post" action="{{ path('app_contact') }}">
-                    <input class="form-control mb-3" required type="email" name="email" value="{{ app.user.email|default('') }}" placeholder="Email">
-                    <textarea name="content" required class="form-control mb-3"></textarea>
-                    <button class="btn-primary btn">Pošalji</button>
+                    <input class="form-control mb-3" type="text" name="name" placeholder="Ime (opciono)">
+                    <input class="form-control mb-3" required type="email" name="email" value="{{ app.user.email|default('') }}" placeholder="Imejl">
+                    <textarea name="content" required class="form-control mb-3" placeholder="Poruka"></textarea>
+                    <div class="g-recaptcha mb-2 d-flex justify-content-center" data-sitekey="6LdqG6oUAAAAAHYH674Bwm8J5XdPlUPNqmOd7NEf"></div>
+                    <button class="d-block btn-primary btn-lg mx-auto">Pošalji</button>
                 </form>
             </div>
         </div>
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 {% endblock %}

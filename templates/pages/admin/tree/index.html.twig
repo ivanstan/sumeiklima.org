@@ -7,12 +7,13 @@
                 <table class="table">
                     <thead>
                     <tr>
-                        <td>Photo</td>
-                        <td>Type</td>
-                        <td>Age</td>
-                        <td>Date</td>
+                        <td>Fotografija</td>
+                        <td>Imejl</td>
+                        <td>Vrsta</td>
+                        <td>Starost</td>
+                        <td>Datum</td>
                         <td>IP</td>
-                        <td width="50px">Enable</td>
+                        <td width="110px">Akcije</td>
                     </tr>
                     </thead>
                     {% for item in pager.currentPageResults %}
@@ -23,6 +24,9 @@
                                         <img src="{{ app.request.getBaseURL() ~ '/' ~ item.photo }}" width="100px">
                                     </a>
                                 {% else %}-{% endif %}
+                            </td>
+                            <td>
+                                <a target="_blank" href="mailto:{{ item.user.email }}">{{ item.user.email }}</a>
                             </td>
                             <td>
                                 {% if item.type %}
@@ -47,13 +51,14 @@
                                 <a class="btn btn-success" href="{{ path('admin_tree_enable', {tree: item.id}) }}">
                                     <i class="fa fa-check" aria-hidden="true"></i>
                                 </a>
+                                <a class="btn btn-danger" href="{{ path('admin_tree_delete', {tree: item.id}) }}">
+                                    <i class="fa fa-trash" aria-hidden="true"></i>
+                                </a>
                             </td>
                         </tr>
                     {% endfor %}
-
                 </table>
-
-                {#                {% include 'components/pager.html.twig' with {pager: pager} only %}#}
+                {% include 'components/pager.html.twig' with {pager: pager} only %}
             </div>
         </div>
     </div>
