@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import {getCategory, IndexMode} from "./IndexMode";
 import {TreeMode} from "./TreeMode";
 import {TreeService} from "../../model/TreeService";
+import {Modal} from "./Modal";
 
 declare var google: any;
 
@@ -25,9 +26,11 @@ interface TreeIndexMapStateInterface {
     indexValue: number;
     marker: any;
     markerLocation: any;
+    loading: boolean;
+    progress: number;
 }
 
-const mapCenter = {lat: 43.8, lng: 21.5};
+const mapCenter = {lat: 44.787197, lng: 20.457273};
 
 export class TreeIndexMap extends React.Component<any, TreeIndexMapStateInterface> {
 
@@ -48,9 +51,11 @@ export class TreeIndexMap extends React.Component<any, TreeIndexMapStateInterfac
         this.mapElement = React.createRef();
 
         this.state = {
+            loading: false,
             mode: TreeIndexMap.MODE_INDEX,
             dataSource: IndexMode.DATA_PINUS_NIGRA,
-            markerLocation: mapCenter
+            markerLocation: mapCenter,
+            progress: 0,
         };
     }
 
@@ -60,7 +65,7 @@ export class TreeIndexMap extends React.Component<any, TreeIndexMapStateInterfac
             streetViewControl: false,
             rotateControl: false,
             fullscreenControl: false,
-            zoom: 7,
+            zoom: 9,
             center: mapCenter,
             styles: getStyle(),
             zoomControlOptions: {
@@ -78,16 +83,44 @@ export class TreeIndexMap extends React.Component<any, TreeIndexMapStateInterfac
             this.map.data.remove(feature);
         });
 
-        this.map.data.loadGeoJson(globals.baseUrl + `/public/data/${dataSource}.json`);
+        this.setState({
+            loading: true,
+            progress: 0
+        });
 
-        this.map.data.addListener('mouseover', (event) => {
+        this.map.data.loadGeoJson(globals.baseUrl + `/public/data/${dataSource}.json`, null, () => {
             this.setState({
-                indexValue: event.feature.l.id,
+                loading: false,
+                progress: 100
             });
         });
 
-        this.map.data.setStyle(function (feature) {
-            let id = feature.getProperty('id');
+        this.map.data.addListener('mouseover', (event) => {
+            let id = event.feature.l.FID;
+
+            if (!id) {
+                id = event.feature.l.DN;
+            }
+
+            if (!id) {
+                id = event.feature.m;
+            }
+
+            this.setState({
+                indexValue: id,
+            });
+        });
+
+        this.map.data.setStyle((feature) => {
+            let id = feature.getProperty('FID');
+
+            if (!id) {
+                id = feature.getProperty('DN');
+            }
+
+            if (!id) {
+                id = feature.m;
+            }
 
             const category = getCategory(id);
 
@@ -217,23 +250,38 @@ export class TreeIndexMap extends React.Component<any, TreeIndexMapStateInterfac
     };
 
     render = () => {
-        return <div className={'d-flex'}>
-            <SideNavigation className={'bg-light p-3'}>
-                <div className={'mb-1'}>
-                    <button className={this.getButtonClass(TreeIndexMap.MODE_INDEX)}
-                            onClick={() => this.onModeChange(TreeIndexMap.MODE_INDEX)}>Gde pošumiti?
-                    </button>
-                    <button className={this.getButtonClass(TreeIndexMap.MODE_TREE)}
-                            onClick={() => this.onModeChange(TreeIndexMap.MODE_TREE)}>Zadite drvo
-                    </button>
+        const globals: any = window["globals"];
+        const { progress } = this.state;
+
+        return (
+            <>
+                {this.state.loading && <Modal>
+                  {/*<div className="progress">*/}
+                  {/*  <div className="progress-bar" role="progressbar" style={{width: `${progress}%`, background: "#59ba52"}} />*/}
+                  {/*</div>*/}
+                  <p className="text-center mt-3 h3" style={{color: "#59ba52"}}>Učitavanje</p>
+                  <img className={"mx-auto d-block"} width={90} src={globals.baseUrl + '/public/images/spinner.apng'} />
+                </Modal>}
+                <div className={'d-flex'}>
+                    <SideNavigation className={'bg-light p-3'}>
+                        <div className={'mb-1'}>
+                            <button className={this.getButtonClass(TreeIndexMap.MODE_INDEX)}
+                                    onClick={() => this.onModeChange(TreeIndexMap.MODE_INDEX)}>Gde pošumiti?
+                            </button>
+                            <button className={this.getButtonClass(TreeIndexMap.MODE_TREE)}
+                                    onClick={() => this.onModeChange(TreeIndexMap.MODE_TREE)}>Zadite drvo
+                            </button>
+                        </div>
+                        {this.state.mode === TreeIndexMap.MODE_INDEX && <IndexMode value={this.state.indexValue}
+                                                                                   dataSource={this.state.dataSource}
+                                                                                   onDataSourceChange={this.onDataSourceChange}
+                        />}
+                        {this.state.mode === TreeIndexMap.MODE_TREE &&
+                        <TreeMode location={this.state.markerLocation} />}
+                    </SideNavigation>
+                    <div ref={this.mapElement} style={mapElementStyle} />
                 </div>
-                {this.state.mode === TreeIndexMap.MODE_INDEX && <IndexMode value={this.state.indexValue}
-                                                                           dataSource={this.state.dataSource}
-                                                                           onDataSourceChange={this.onDataSourceChange}
-                />}
-                {this.state.mode === TreeIndexMap.MODE_TREE && <TreeMode location={this.state.markerLocation} />}
-            </SideNavigation>
-            <div ref={this.mapElement} style={mapElementStyle} />
-        </div>
+            </>
+        )
     };
 }

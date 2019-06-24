@@ -22,6 +22,12 @@ a {
   transform: translateY(-50%);
 }
 
+.horizontal-align {
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
 .table th, .table td {
   vertical-align: middle;
 }

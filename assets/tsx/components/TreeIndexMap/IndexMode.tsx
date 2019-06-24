@@ -44,36 +44,47 @@ const maxIndex = 19;
 
 const categories = [
     {
-        color: '#FF4316',
-        title: 'Veoma nepovoljno',
-    },
-    {
-        color: '#FFB816',
-        title: 'Nepovoljno',
-    },
-    {
-        color: '#FFF058',
-        title: 'Neutralno',
-    },
-    {
-        color: '#86EC00',
-        title: 'Povoljno',
+        color: '#C6C6C6',
+        title: 'Nedostaju Podaci',
     },
     {
         color: '#67B600',
-        title: 'Veoma povoljno',
+        title: '1. Klasa',
+    },
+    {
+        color: '#86EC00',
+        title: '2. Klasa',
+    },
+    {
+        color: '#FFF058',
+        title: '3. Klasa',
+    },
+    {
+        color: '#FFB816',
+        title: '4. Klasa',
+    },
+    {
+        color: '#FF4316',
+        title: 'Postojeća šuma',
+    },
+    {
+        color: '#FF4316',
+        title: 'Zaštićena prirodna dobra',
     }
 ];
 
-const unknown = {
-    color: '#C6C6C6',
-    title: 'Nepoznato',
-};
+
+// 1 - 1. klasa : Ovo je lokacija izuzetno pogodna za sadnju ove vrste.
+// 2 - 2.  klasa: Ovo je lokacija koja je pogodna za sadnju ove vrste.
+// 3 - 3.  klasa: Ovo je lokacija koja je delimično/uslovno pogodna za sadnju ove vrste.
+// 4 - 4. klasa: Ovo je lokacija koja nije pogodna za sadnju ove vrste.
+// 5 - : Na ovoj lokaciji je već šuma
+// 6 - : Ovo je lokacija koja se nalazi u okviru zaštićenog područja (nemojte saditi drvo).
 
 export const getCategory = (index) => {
 
     if (!index) {
-        return unknown;
+        return categories[0];
     }
 
     const percent = 100 * index / maxIndex;
@@ -83,7 +94,7 @@ export const getCategory = (index) => {
         return categories[category];
     }
 
-    return unknown;
+    return categories[0];
 };
 
 export class IndexMode extends React.Component<IndexModePropsInterface, IndexModeStateInterface> {
