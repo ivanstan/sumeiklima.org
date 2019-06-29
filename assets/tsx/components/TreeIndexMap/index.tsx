@@ -1,10 +1,12 @@
-import * as React from 'react';
+import * as React from "react";
 import {getStyle} from "./styles";
-import styled from 'styled-components';
+import styled from "styled-components";
 import {getCategory, IndexMode} from "./IndexMode";
 import {TreeMode} from "./TreeMode";
 import {TreeService} from "../../model/TreeService";
 import {Modal} from "./Modal";
+import * as globalMercator from "global-mercator";
+import {geoJsonServer} from "../../config";
 
 declare var google: any;
 
@@ -34,8 +36,8 @@ const mapCenter = {lat: 44.787197, lng: 20.457273};
 
 export class TreeIndexMap extends React.Component<any, TreeIndexMapStateInterface> {
 
-    public static MODE_INDEX = 'index';
-    public static MODE_TREE = 'tree';
+    public static MODE_INDEX = "index";
+    public static MODE_TREE = "tree";
 
     private readonly mapElement: any;
 
@@ -44,6 +46,8 @@ export class TreeIndexMap extends React.Component<any, TreeIndexMapStateInterfac
     private trees: any = [];
 
     public state: any;
+
+    public tiles: any = {};
 
     constructor(props) {
         super(props);
@@ -65,37 +69,36 @@ export class TreeIndexMap extends React.Component<any, TreeIndexMapStateInterfac
             streetViewControl: false,
             rotateControl: false,
             fullscreenControl: false,
-            zoom: 9,
+            zoom: 11,
             center: mapCenter,
             styles: getStyle(),
+            minZoom: 10,
             zoomControlOptions: {
                 position: google.maps.ControlPosition.RIGHT_TOP
             },
         });
 
-        this.setData(this.state.dataSource);
-    };
-
-    setData = (dataSource) => {
-        const globals: any = window["globals"];
-
-        this.map.data.forEach((feature) => {
-            this.map.data.remove(feature);
+        google.maps.event.addListener(this.map, "idle", () => {
+            if (this.state.mode === TreeIndexMap.MODE_INDEX) {
+                this.loadData();
+            }
         });
 
-        this.setState({
-            loading: true,
-            progress: 0
+        google.maps.event.addListener(this.map, "zoom_changed", () => {
+            this.clearData();
         });
 
-        this.map.data.loadGeoJson(globals.baseUrl + `/public/data/${dataSource}.json`, null, () => {
-            this.setState({
-                loading: false,
-                progress: 100
-            });
+        this.map.data.setStyle((feature) => {
+            const id = feature.getProperty("DN");
+            const category = getCategory(id);
+
+            return {
+                fillColor: category.color,
+                strokeWeight: 0
+            }
         });
 
-        this.map.data.addListener('mouseover', (event) => {
+        this.map.data.addListener("mouseover", (event) => {
             let id = event.feature.l.FID;
 
             if (!id) {
@@ -110,57 +113,123 @@ export class TreeIndexMap extends React.Component<any, TreeIndexMapStateInterfac
                 indexValue: id,
             });
         });
+    };
 
-        this.map.data.setStyle((feature) => {
-            let id = feature.getProperty('FID');
+    loadData = () => {
+        const tiles = this.getTiles();
 
-            if (!id) {
-                id = feature.getProperty('DN');
-            }
+        tiles.forEach((tile) => {
+            let [x, y, z] = tile;
 
-            if (!id) {
-                id = feature.m;
-            }
-
-            const category = getCategory(id);
-
-            return {
-                fillColor: category.color,
-                strokeWeight: 0
-            }
+            this.loadTile(x, y, z);
         });
     };
 
-    getButtonClass = (mode: string) => {
-        let classes = ['btn', 'w-100', 'mb-1'];
+    getTiles = () => {
+        const bounds = this.map.getBounds(),
+            boundsNeLatLng = bounds.getNorthEast(),
+            boundsSwLatLng = bounds.getSouthWest(),
+            boundsNwLatLng = new google.maps.LatLng(boundsNeLatLng.lat(), boundsSwLatLng.lng()),
+            boundsSeLatLng = new google.maps.LatLng(boundsSwLatLng.lat(), boundsNeLatLng.lng()),
+            zoom = this.map.getZoom();
+        let tiles = [];
 
-        if (mode === this.state.mode) {
-            classes.push('btn-success');
-        } else {
-            classes.push('btn-secondary');
+        let lng = boundsSwLatLng.lng(),
+            lat = boundsSwLatLng.lat();
+
+        const tile = globalMercator.lngLatToGoogle([lng, lat], zoom);
+        const [minX, minY, maxX, maxY] = globalMercator.googleToBBox(tile);
+        const tileSizeX = maxX - minX;
+        const tileSizeY = maxY - minY;
+
+        const maxLat = boundsNwLatLng.lat();
+
+        while (lat < maxLat) {
+            lng = boundsSwLatLng.lng();
+
+            let row = [];
+            while (lng < boundsSeLatLng.lng()) {
+                const tile = globalMercator.lngLatToGoogle([lng, lat], zoom);
+
+                row.push(tile);
+
+                lng = lng + tileSizeX;
+            }
+
+            tiles = tiles.concat(row);
+
+            lat = lat + tileSizeY;
         }
 
-        return classes.join(' ');
+        return tiles;
+    };
+
+    loadTile = (x, y, z) => {
+        if (this.isTileLoaded(x, y, z)) {
+            return;
+        }
+
+        const file = this.state.dataSource;
+
+        this.setTile(x, y, z);
+        this.map.data.loadGeoJson(`${geoJsonServer}/${file}/${z}/${x}/${y}.geojson`);
+    };
+
+    clearData = () => {
+        this.map.data.forEach((feature) => {
+            this.map.data.remove(feature);
+        });
+        this.tiles = {};
+    };
+
+    setTile = (x, y, z) => {
+        if (!this.tiles.hasOwnProperty(x)) {
+            this.tiles[x] = {};
+        }
+
+        if (!this.tiles[x].hasOwnProperty(x)) {
+            this.tiles[x][y] = {};
+        }
+
+        this.tiles[x][y][z] = true;
+    };
+
+    isTileLoaded = (x, y, z) => {
+        return this.tiles.hasOwnProperty(x) && this.tiles[x].hasOwnProperty(y) && this.tiles[x][y].hasOwnProperty(z) && this.tiles[x][y][z] === true;
+    };
+
+    getButtonClass = (mode: string) => {
+        let classes = ["btn", "w-100", "mb-1"];
+
+        if (mode === this.state.mode) {
+            classes.push("btn-success");
+        } else {
+            classes.push("btn-secondary");
+        }
+
+        return classes.join(" ");
     };
 
     onDataSourceChange = (dataSource) => {
         this.setState({
             dataSource: dataSource
         });
-
-        this.setData(dataSource);
+        this.clearData();
+        this.loadData();
     };
 
-    onModeChange(mode) {
+    onModeChange = mode => {
         this.setState({mode: mode});
 
         if (mode === TreeIndexMap.MODE_TREE) {
+            this.clearData();
+
             const globals: any = window["globals"];
 
             this.setMarker();
 
             const infowindow = new google.maps.InfoWindow({
-                content: 'Test'
+                content: "Test"
             });
 
             TreeService.list().then((data) => {
@@ -170,15 +239,15 @@ export class TreeIndexMap extends React.Component<any, TreeIndexMapStateInterfac
                     const marker = new google.maps.Marker({
                         position: new google.maps.LatLng(item.latitude, item.longitude),
                         map: this.map,
-                        icon: globals.baseUrl + '/public/images/tree.png',
+                        icon: globals.baseUrl + "/public/images/tree.png",
                         data: item
                     });
 
-                    marker.addListener('click', () => {
+                    marker.addListener("click", () => {
                         const {type} = marker.data;
-                        let content = '';
+                        let content = "";
 
-                        let typeString = 'Nepoznata';
+                        let typeString = "Nepoznata";
 
                         if (type.serbian) {
                             typeString = type.serbian;
@@ -197,7 +266,7 @@ export class TreeIndexMap extends React.Component<any, TreeIndexMapStateInterfac
                         }
 
                         if (item.photo) {
-                            const image = globals.baseUrl + '/' + item.photo;
+                            const image = globals.baseUrl + "/" + item.photo;
 
                             content += `<br/><img src="${image}" width="200px"/>`;
                         }
@@ -224,7 +293,7 @@ export class TreeIndexMap extends React.Component<any, TreeIndexMapStateInterfac
         }
     };
 
-    setMarker() {
+    setMarker = () => {
         this.state.marker = new google.maps.Marker({
             position: this.map.getCenter(),
             map: this.map,
@@ -232,7 +301,7 @@ export class TreeIndexMap extends React.Component<any, TreeIndexMapStateInterfac
             animation: google.maps.Animation.DROP,
         });
 
-        google.maps.event.addListener(this.state.marker, 'dragend', event =>
+        google.maps.event.addListener(this.state.marker, "dragend", event =>
             this.setState({
                 markerLocation: {
                     lat: event.latLng.lat(),
@@ -240,7 +309,7 @@ export class TreeIndexMap extends React.Component<any, TreeIndexMapStateInterfac
                 }
             })
         );
-    }
+    };
 
     unsetMarker = () => {
         if (this.state.marker) {
@@ -251,20 +320,20 @@ export class TreeIndexMap extends React.Component<any, TreeIndexMapStateInterfac
 
     render = () => {
         const globals: any = window["globals"];
-        const { progress } = this.state;
+        const {progress} = this.state;
 
         return (
             <>
                 {this.state.loading && <Modal>
-                  {/*<div className="progress">*/}
-                  {/*  <div className="progress-bar" role="progressbar" style={{width: `${progress}%`, background: "#59ba52"}} />*/}
-                  {/*</div>*/}
+                    {/*<div className="progress">*/}
+                    {/*  <div className="progress-bar" role="progressbar" style={{width: `${progress}%`, background: "#59ba52"}} />*/}
+                    {/*</div>*/}
                   <p className="text-center mt-3 h3" style={{color: "#59ba52"}}>Učitavanje</p>
-                  <img className={"mx-auto d-block"} width={90} src={globals.baseUrl + '/public/images/spinner.apng'} />
+                  <img className={"mx-auto d-block"} width={90} src={globals.baseUrl + "/public/images/spinner.apng"} />
                 </Modal>}
-                <div className={'d-flex'}>
-                    <SideNavigation className={'bg-light p-3'}>
-                        <div className={'mb-1'}>
+                <div className={"d-flex"}>
+                    <SideNavigation className={"bg-light p-3"}>
+                        <div className={"mb-1"}>
                             <button className={this.getButtonClass(TreeIndexMap.MODE_INDEX)}
                                     onClick={() => this.onModeChange(TreeIndexMap.MODE_INDEX)}>Gde pošumiti?
                             </button>

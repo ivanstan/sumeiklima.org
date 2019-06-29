@@ -82,19 +82,7 @@ const categories = [
 // 6 - : Ovo je lokacija koja se nalazi u okviru zaštićenog područja (nemojte saditi drvo).
 
 export const getCategory = (index) => {
-
-    if (!index) {
-        return categories[0];
-    }
-
-    const percent = 100 * index / maxIndex;
-    const category = Math.round(percent / (100 / categories.length));
-
-    if (typeof categories[category] !== "undefined") {
-        return categories[category];
-    }
-
-    return categories[0];
+    return categories[index] || categories[0];
 };
 
 export class IndexMode extends React.Component<IndexModePropsInterface, IndexModeStateInterface> {

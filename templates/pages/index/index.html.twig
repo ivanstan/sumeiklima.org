@@ -38,11 +38,10 @@
                 <div class="card">
                     <div class="card-body">
                         <h4 class="card-title text-center">Uloga šuma</h4>
-                        <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-                        <p class="card-text">
-                            Some quick example text to build on the card title
-                            and make up the bulk of the card's content.
-                        </p>
+                        <div style="max-height: 220px" class="overflow-hidden">
+                            <img class="mx-auto d-block" width="300px"
+                                 src="{{ asset('public/images/uloga-sume.svg') }}">
+                        </div>
                         <a href="{{ path('app_uloga_suma') }}" class="card-link float-right">Detaljnije...</a>
                     </div>
                 </div>
@@ -51,11 +50,10 @@
                 <div class="card">
                     <div class="card-body">
                         <h4 class="card-title text-center">Vrste drveća</h4>
-                        <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-                        <p class="card-text">
-                            Some quick example text to build on the card title
-                            and make up the bulk of the card's content.
-                        </p>
+                        <div style="max-height: 264px; margin-top: -44px;" class="overflow-hidden">
+                            <img class="mx-auto d-block" width="300px"
+                                 src="{{ asset('public/images/vrste-drveca.svg') }}">
+                        </div>
                         <a href="{{ path('app_vrste_drveca') }}" class="card-link float-right">Detaljnije...</a>
                     </div>
                 </div>
@@ -64,7 +62,7 @@
                 <div class="card">
                     <div class="card-body">
                         <h4 class="card-title text-center">O projektu</h4>
-                        <img class="mx-auto d-block" width="200px" src="{{ asset('public/images/logo.png') }}">
+                        <img style="padding: 30px 0" class="mx-auto d-block" width="200px" src="{{ asset('public/images/logo.png') }}">
                         <a href="{{ path('app_projekat') }}" class="card-link float-right">Detaljnije...</a>
                     </div>
                 </div>

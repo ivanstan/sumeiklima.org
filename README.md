@@ -30,3 +30,5 @@
 * Endpoints `/_error/{http_code}` (e.g. /_error/404) will give preview of http error page.
 * Endpoints `/_email/recovery`, `/_email/verify`, `/_email/invite` will show email templates
   for corresponding email actions.
+
+node ./node_modules/geojson-tile-server/dist/cli.js --data public/data/
