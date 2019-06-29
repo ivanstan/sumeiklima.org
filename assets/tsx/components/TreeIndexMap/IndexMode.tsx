@@ -73,7 +73,6 @@ const categories = [
     }
 ];
 
-
 // 1 - 1. klasa : Ovo je lokacija izuzetno pogodna za sadnju ove vrste.
 // 2 - 2.  klasa: Ovo je lokacija koja je pogodna za sadnju ove vrste.
 // 3 - 3.  klasa: Ovo je lokacija koja je delimično/uslovno pogodna za sadnju ove vrste.
@@ -120,7 +119,7 @@ export class IndexMode extends React.Component<IndexModePropsInterface, IndexMod
             </div>
             <div>
                 <strong className="text-center d-block mb-2">Legenda</strong>
-                <div className={'d-flex'}>
+                <div className={'d-flex justify-content-between'}>
                     {categories.map((category, index) => <LegendItem key={index}>
                         <LegendCircle background={category.color}/>
                         <p className={'text-muted text-center'}>{category.title}</p>

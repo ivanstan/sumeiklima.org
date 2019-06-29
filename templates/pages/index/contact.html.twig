@@ -8,8 +8,8 @@
     <div class="container pt-3 pb-5 bg-light">
         <div class="row">
             <h1 class="px-4">Kontakt</h1>
-            <div class="col-12 d-flex align-items-center">
-                <img src="{{ asset('public/images/CRNOG.png') }}" width="200px" class="mr-4">
+            <div class="col-12 d-flex align-items-center flex-column flex-lg-row">
+                <img src="{{ asset('public/images/CRNOG.png') }}" width="200px" class="mr-0 mr-lg-4 mb-lg-3">
                 <p>
                     Centar za razvoj neformalnog obrazovanja građana – <a href="https://www.facebook.com/crnog1/"
                                                                           target="_blank">CRNOG</a> je nestranačka,
@@ -24,8 +24,8 @@
         </div>
 
         <div class="row">
-            <div class="col-12 d-flex align-items-center">
-                <img src="{{ asset('public/images/SCS.png') }}" width="200px" class="mr-4">
+            <div class="col-12 d-flex align-items-center flex-column flex-lg-row">
+                <img src="{{ asset('public/images/SCS.png') }}" width="200px" class="mr-0 mr-lg-4 mb-lg-3">
                 <p>
                     Fondacija <a target="_blank" href="https://www.serbiancaseforspace.com/">„Srpski Zalog za Svemir”
                         (Serbian Case for Space – SCS)</a> je osnovana 15. oktobra 2017. godine u Beogradu. SCS je
@@ -43,8 +43,8 @@
         </div>
 
         <div class="row">
-            <div class="col-12 d-flex align-items-center">
-                <img src="{{ asset('public/images/1CSrbija.png') }}" width="200px" class="mr-4">
+            <div class="col-12 d-flex align-items-center flex-column flex-lg-row">
+                <img src="{{ asset('public/images/1CSrbija.png') }}" width="200px" class="mr-0 mr-lg-4 mb-lg-3">
                 <p>
                     Udruženje <a target="_blank" href="http://jedanstepen.org/sr/">Jedan stepen Srbija</a> je
                     dobrovoljno, nevladino i neprofitno udruženje, osnovano radi delovanja u oblasti zaštite životne
@@ -60,13 +60,13 @@
         </div>
 
         <div class="row mt-3">
-            <div class="col-6 mx-auto">
+            <div class="col-lg-6 mx-auto">
                 {% include 'components/messages.html.twig' %}
                 <form method="post" action="{{ path('app_contact') }}">
                     <input class="form-control mb-3" type="text" name="name" placeholder="Ime (opciono)">
                     <input class="form-control mb-3" required type="email" name="email" value="{{ app.user.email|default('') }}" placeholder="Imejl">
-                    <textarea name="content" required class="form-control mb-3" placeholder="Poruka"></textarea>
-                    <div class="g-recaptcha mb-2 d-flex justify-content-center" data-sitekey="6LdqG6oUAAAAAHYH674Bwm8J5XdPlUPNqmOd7NEf"></div>
+                    <textarea name="content" rows="6" required class="form-control mb-3" placeholder="Poruka"></textarea>
+                    <div class="g-recaptcha mb-2 d-flex justify-content-center" data-sitekey="6LdaG6oUAAAAAORD6KIjG6ImOC01WOOulc3-NBpm"></div>
                     <button class="d-block btn-primary btn-lg mx-auto">Pošalji</button>
                 </form>
             </div>

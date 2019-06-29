@@ -7,6 +7,7 @@ import {TreeService} from "../../model/TreeService";
 import {Modal} from "./Modal";
 import * as globalMercator from "global-mercator";
 import {geoJsonServer} from "../../config";
+import {SideBarToggleButton} from "./SideBarToggleButton";
 
 declare var google: any;
 
@@ -30,6 +31,7 @@ interface TreeIndexMapStateInterface {
     markerLocation: any;
     loading: boolean;
     progress: number;
+    sideBarVisible: boolean;
 }
 
 const mapCenter = {lat: 44.787197, lng: 20.457273};
@@ -60,6 +62,7 @@ export class TreeIndexMap extends React.Component<any, TreeIndexMapStateInterfac
             dataSource: IndexMode.DATA_PINUS_NIGRA,
             markerLocation: mapCenter,
             progress: 0,
+            sideBarVisible: true,
         };
     }
 
@@ -318,9 +321,18 @@ export class TreeIndexMap extends React.Component<any, TreeIndexMapStateInterfac
         }
     };
 
+    onSideBarToggle = () => {
+        this.setState((prevState => {
+
+            return {
+              sideBarVisible: !prevState.sideBarVisible,
+            };
+        }));
+    };
+
     render = () => {
         const globals: any = window["globals"];
-        const {progress} = this.state;
+        const {progress, sideBarVisible} = this.state;
 
         return (
             <>
@@ -332,7 +344,7 @@ export class TreeIndexMap extends React.Component<any, TreeIndexMapStateInterfac
                   <img className={"mx-auto d-block"} width={90} src={globals.baseUrl + "/public/images/spinner.apng"} />
                 </Modal>}
                 <div className={"d-flex"}>
-                    <SideNavigation className={"bg-light p-3"}>
+                    {sideBarVisible && <SideNavigation className={"bg-light p-3"}>
                         <div className={"mb-1"}>
                             <button className={this.getButtonClass(TreeIndexMap.MODE_INDEX)}
                                     onClick={() => this.onModeChange(TreeIndexMap.MODE_INDEX)}>Gde pošumiti?
@@ -347,9 +359,10 @@ export class TreeIndexMap extends React.Component<any, TreeIndexMapStateInterfac
                         />}
                         {this.state.mode === TreeIndexMap.MODE_TREE &&
                         <TreeMode location={this.state.markerLocation} />}
-                    </SideNavigation>
-                    <div ref={this.mapElement} style={mapElementStyle} />
+                    </SideNavigation>}
+                    <div ref={this.mapElement} className="map-container" style={mapElementStyle} />
                 </div>
+                <SideBarToggleButton onClick={this.onSideBarToggle}/>
             </>
         )
     };

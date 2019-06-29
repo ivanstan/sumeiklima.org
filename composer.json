@@ -73,6 +73,9 @@
         ],
         "post-update-cmd": [
             "@auto-scripts"
+        ],
+        "deploy": [
+            "sh ./bin/deploy.sh"
         ]
     },
     "conflict": {

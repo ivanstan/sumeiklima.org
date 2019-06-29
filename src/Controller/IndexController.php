@@ -91,7 +91,7 @@ class IndexController extends AbstractController
 
             $postdata = http_build_query(
                 [
-                    'secret' => '6LdqG6oUAAAAAIO_oSFc1DTy1yirYwkf7adkbnR6',
+                    'secret' => '6LdaG6oUAAAAANR1W8lMV1ZpJ-53MsnEge50d4D1',
                     'response' => $captcha,
                 ]
             );

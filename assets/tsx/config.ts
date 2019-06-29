@@ -1,1 +1,1 @@
-export const geoJsonServer = 'http://spacehub.rs/dev';
+export const geoJsonServer = 'https://spacehub.rs/dev';

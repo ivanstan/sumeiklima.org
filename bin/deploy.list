@@ -1,0 +1,10 @@
+bin/console
+config
+public
+src
+templates
+translations
+vendor
+composer.json
+index.php
+.htaccess
