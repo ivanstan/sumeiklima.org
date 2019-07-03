@@ -25,8 +25,8 @@ class TreeTypeRepository extends ServiceEntityRepository
 
         if ($value) {
             $builder
-                ->andWhere('t.serbian = :search OR t.latin = :search')
-                ->setParameter('search', $value);
+                ->andWhere('t.serbian LIKE :search OR t.latin LIKE :search')
+                ->setParameter('search', '%'.$value.'%');
         }
 
         return $builder->getQuery()->getResult();
