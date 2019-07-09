@@ -9,7 +9,7 @@ print () {
     tput setaf 7
 }
 
-export DEPLOY_PATH=/home/spacehub/projects/sumeiklima.rs
+export DEPLOY_PATH=/home/spacehub/projects/sumeiklima.org
 export HOST=spacehub.rs
 export USER=spacehub
 export PORT=2233
