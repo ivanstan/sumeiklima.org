@@ -350,7 +350,7 @@ export class TreeIndexMap extends React.Component<any, TreeIndexMapStateInterfac
                                     onClick={() => this.onModeChange(TreeIndexMap.MODE_INDEX)}>Gde pošumiti?
                             </button>
                             <button className={this.getButtonClass(TreeIndexMap.MODE_TREE)}
-                                    onClick={() => this.onModeChange(TreeIndexMap.MODE_TREE)}>Zadite drvo
+                                    onClick={() => this.onModeChange(TreeIndexMap.MODE_TREE)}>Zasadite drvo
                             </button>
                         </div>
                         {this.state.mode === TreeIndexMap.MODE_INDEX && <IndexMode value={this.state.indexValue}
