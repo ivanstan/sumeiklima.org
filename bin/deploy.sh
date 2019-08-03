@@ -16,10 +16,10 @@ export PORT=2233
 export ARTIFACT_NAME=artifact-`date '+%Y%m%d%H%M%S'`.tar.gz;
 
 print "> composer install"
-#composer install
+composer install
 
 print "> yarn build"
-#yarn build
+yarn build
 
 print "> Security audit"
 #yarn audit
