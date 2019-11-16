@@ -17,10 +17,11 @@ const mapElementStyle = {
 };
 
 const SideNavigation = styled.aside`
-    width: 450px;
+    width: 500px;
     minHeight: calc(100vh - 56px);
     display: flex;
     flex-direction: column;
+    overflow: hidden;
 `;
 
 interface TreeIndexMapStateInterface {
@@ -102,24 +103,25 @@ export class TreeIndexMap extends React.Component<any, TreeIndexMapStateInterfac
         });
 
         this.map.data.addListener("mouseover", (event) => {
-            let id = event.feature.l.FID;
+            let id = null;
 
-            if (!id) {
-                id = event.feature.l.DN;
+            for(let i in event.feature) {
+                if (event.feature[i] && typeof event.feature[i] === "object" && event.feature[i].hasOwnProperty("DN")) {
+                    id = event.feature[i].DN;
+                }
             }
 
-            if (!id) {
-                id = event.feature.m;
-            }
-
-            this.setState({
+            if (id !== null) {
+              this.setState({
                 indexValue: id,
-            });
+              });
+            }
         });
     };
 
     loadData = () => {
         const tiles = this.getTiles();
+
 
         tiles.forEach((tile) => {
             let [x, y, z] = tile;
@@ -343,7 +345,7 @@ export class TreeIndexMap extends React.Component<any, TreeIndexMapStateInterfac
                   <p className="text-center mt-3 h3" style={{color: "#59ba52"}}>Učitavanje</p>
                   <img className={"mx-auto d-block"} width={90} src={globals.baseUrl + "/public/images/spinner.apng"} />
                 </Modal>}
-                <div className={"d-flex"}>
+                <div className={"d-flex"} style={{maxHeight: "calc(100vh - 56px)"}}>
                     {sideBarVisible && <SideNavigation className={"bg-light p-3"}>
                         <div className={"mb-1"}>
                             <button className={this.getButtonClass(TreeIndexMap.MODE_INDEX)}

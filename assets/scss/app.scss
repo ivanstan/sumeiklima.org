@@ -58,8 +58,17 @@ a {
   border-radius: 40px 40px 0 0;
 }
 
+.other-logos {
+  padding-left: 0;
+}
+
 @include media-breakpoint-up(lg) {
   .map-container {
     width: 100%;
   }
+
+  .other-logos {
+    padding-left: 100px;
+  }
 }
+

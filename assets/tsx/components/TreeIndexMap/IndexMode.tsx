@@ -110,7 +110,7 @@ export class IndexMode extends React.Component<IndexModePropsInterface, IndexMod
         const category = getCategory(this.props.value);
 
         return <div className={'d-flex flex-column flex-grow-1'}>
-            <div className="alert alert-warning d-flex" style={{alignItems: 'center'}}>
+            <div className="d-none d-lg-flex alert alert-warning" style={{alignItems: 'center'}}>
                 <i style={{fontSize: 40}} className="fa fa-hand-pointer-o pr-3" aria-hidden="true"/>
                 <span style={{fontSize: 14}}>Pomeranjem kursora po mapi pogledajte koliko je određena lokacija povoljna za sadnju drveća.</span>
             </div>
@@ -162,12 +162,6 @@ export class IndexMode extends React.Component<IndexModePropsInterface, IndexMod
                         <LatinTitle>Betula pendula</LatinTitle>
                     </button>
                 </div>
-            </div>
-            <div className={"mt-2"} style={{fontSize: 12}}>
-                <p className={"text-muted"}>*** Algoritam na osnovu kog je izračunata pogodnost za pošumljavanja ne razmatra
-                    planska i strateška dokumenta, zbog čega se svim korisnica preporučuje da pre sadnje drveća
-                    kontaktiraju nadležne institucije.</p>
-                <p className={"text-muted"}>*** <a href={globals.baseUrl + `/download/${this.props.dataSource}`}> Preuzimanje podataka.</a></p>
             </div>
         </div>;
     }
