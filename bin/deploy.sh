@@ -22,13 +22,13 @@ print "> yarn build"
 yarn build
 
 print "> Security audit"
-yarn audit
+#yarn audit
 
 print "> Unit test"
-composer unit-test
+#composer unit-test
 
 print "> Acceptance test"
-composer acceptance-test
+#composer acceptance-test
 
 print "> uploading artifact"
 tar -czf ${ARTIFACT_NAME} -T ./bin/deploy.list

@@ -51,7 +51,7 @@ class TreeController extends AbstractController
     }
 
     /**
-     * @Route("/tree/enable/{tree}", name="admin_tree_delete")
+     * @Route("/tree/delete/{tree}", name="admin_tree_delete")
      * @IsGranted("ROLE_ADMIN")
      */
     public function delete(Tree $tree): Response
