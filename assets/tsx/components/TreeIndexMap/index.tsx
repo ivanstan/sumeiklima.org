@@ -8,6 +8,7 @@ import {Modal} from "./Modal";
 import * as globalMercator from "global-mercator";
 import {geoJsonServer} from "../../config";
 import {SideBarToggleButton} from "./SideBarToggleButton";
+import {GeoQuery} from "../../service/GeoQuery";
 
 declare var google: any;
 
@@ -52,10 +53,16 @@ export class TreeIndexMap extends React.Component<any, TreeIndexMapStateInterfac
 
     public tiles: any = {};
 
+    private geoQuery: GeoQuery;
+
     constructor(props) {
         super(props);
 
         this.mapElement = React.createRef();
+        this.geoQuery = new GeoQuery(
+            'https://search-ivanstan-fwyclk37rb3t524iwflinclw6i.eu-central-1.es.amazonaws.com',
+            'geojson'
+        );
 
         this.state = {
             loading: false,
@@ -76,7 +83,7 @@ export class TreeIndexMap extends React.Component<any, TreeIndexMapStateInterfac
             zoom: 11,
             center: mapCenter,
             styles: getStyle(),
-            minZoom: 10,
+            // minZoom: 10,
             zoomControlOptions: {
                 position: google.maps.ControlPosition.RIGHT_TOP
             },
@@ -93,6 +100,9 @@ export class TreeIndexMap extends React.Component<any, TreeIndexMapStateInterfac
         });
 
         this.map.data.setStyle((feature) => {
+
+            console.log(feature);
+
             const id = feature.getProperty("DN");
             const category = getCategory(id);
 
@@ -105,16 +115,16 @@ export class TreeIndexMap extends React.Component<any, TreeIndexMapStateInterfac
         this.map.data.addListener("mouseover", (event) => {
             let id = null;
 
-            for(let i in event.feature) {
+            for (let i in event.feature) {
                 if (event.feature[i] && typeof event.feature[i] === "object" && event.feature[i].hasOwnProperty("DN")) {
                     id = event.feature[i].DN;
                 }
             }
 
             if (id !== null) {
-              this.setState({
-                indexValue: id,
-              });
+                this.setState({
+                    indexValue: id,
+                });
             }
         });
     };
@@ -144,27 +154,45 @@ export class TreeIndexMap extends React.Component<any, TreeIndexMapStateInterfac
 
         const tile = globalMercator.lngLatToGoogle([lng, lat], zoom);
         const [minX, minY, maxX, maxY] = globalMercator.googleToBBox(tile);
-        const tileSizeX = maxX - minX;
-        const tileSizeY = maxY - minY;
 
-        const maxLat = boundsNwLatLng.lat();
+        this.geoQuery.getForViewPort(maxX, maxY, minX, minY).then((response) => {
 
-        while (lat < maxLat) {
-            lng = boundsSwLatLng.lng();
+            for(let i in response.hits) {
+                let tile = response.hits[i]._source.feature;
 
-            let row = [];
-            while (lng < boundsSeLatLng.lng()) {
-                const tile = globalMercator.lngLatToGoogle([lng, lat], zoom);
+                console.log(tile);
 
-                row.push(tile);
-
-                lng = lng + tileSizeX;
+                this.map.data.addGeoJson({
+                    "type": "FeatureCollection",
+                    features: tile.features
+                });
             }
 
-            tiles = tiles.concat(row);
 
-            lat = lat + tileSizeY;
-        }
+
+        }).catch(e => console.log(e));
+
+        // const tileSizeX = maxX - minX;
+        // const tileSizeY = maxY - minY;
+        //
+        // const maxLat = boundsNwLatLng.lat();
+        //
+        // while (lat < maxLat) {
+        //     lng = boundsSwLatLng.lng();
+        //
+        //     let row = [];
+        //     while (lng < boundsSeLatLng.lng()) {
+        //         const tile = globalMercator.lngLatToGoogle([lng, lat], zoom);
+        //
+        //         row.push(tile);
+        //
+        //         lng = lng + tileSizeX;
+        //     }
+        //
+        //     tiles = tiles.concat(row);
+        //
+        //     lat = lat + tileSizeY;
+        // }
 
         return tiles;
     };
@@ -177,6 +205,8 @@ export class TreeIndexMap extends React.Component<any, TreeIndexMapStateInterfac
         const file = this.state.dataSource;
 
         this.setTile(x, y, z);
+
+
         this.map.data.loadGeoJson(`${geoJsonServer}/${file}/${z}/${x}/${y}.geojson`);
     };
 
@@ -327,7 +357,7 @@ export class TreeIndexMap extends React.Component<any, TreeIndexMapStateInterfac
         this.setState((prevState => {
 
             return {
-              sideBarVisible: !prevState.sideBarVisible,
+                sideBarVisible: !prevState.sideBarVisible,
             };
         }));
     };
@@ -342,8 +372,9 @@ export class TreeIndexMap extends React.Component<any, TreeIndexMapStateInterfac
                     {/*<div className="progress">*/}
                     {/*  <div className="progress-bar" role="progressbar" style={{width: `${progress}%`, background: "#59ba52"}} />*/}
                     {/*</div>*/}
-                  <p className="text-center mt-3 h3" style={{color: "#59ba52"}}>Učitavanje</p>
-                  <img className={"mx-auto d-block"} width={90} src={globals.baseUrl + "/public/images/spinner.apng"} />
+                    <p className="text-center mt-3 h3" style={{color: "#59ba52"}}>Učitavanje</p>
+                    <img className={"mx-auto d-block"} width={90}
+                         src={globals.baseUrl + "/public/images/spinner.apng"}/>
                 </Modal>}
                 <div className={"d-flex"} style={{maxHeight: "calc(100vh - 56px)"}}>
                     {sideBarVisible && <SideNavigation className={"bg-light p-3"}>
@@ -360,9 +391,9 @@ export class TreeIndexMap extends React.Component<any, TreeIndexMapStateInterfac
                                                                                    onDataSourceChange={this.onDataSourceChange}
                         />}
                         {this.state.mode === TreeIndexMap.MODE_TREE &&
-                        <TreeMode location={this.state.markerLocation} />}
+                        <TreeMode location={this.state.markerLocation}/>}
                     </SideNavigation>}
-                    <div ref={this.mapElement} className="map-container" style={mapElementStyle} />
+                    <div ref={this.mapElement} className="map-container" style={mapElementStyle}/>
                 </div>
                 <SideBarToggleButton onClick={this.onSideBarToggle}/>
             </>
