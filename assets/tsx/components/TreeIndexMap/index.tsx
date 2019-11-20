@@ -6,9 +6,10 @@ import {TreeMode} from "./TreeMode";
 import {TreeService} from "../../model/TreeService";
 import {Modal} from "./Modal";
 import * as globalMercator from "global-mercator";
-import {geoJsonServer} from "../../config";
+import {elasticSearch, index} from "../../config";
 import {SideBarToggleButton} from "./SideBarToggleButton";
 import {GeoQuery} from "../../service/GeoQuery";
+import {TileRenderManager} from "../../service/TileRenderManager";
 
 declare var google: any;
 
@@ -51,18 +52,16 @@ export class TreeIndexMap extends React.Component<any, TreeIndexMapStateInterfac
 
     public state: any;
 
-    public tiles: any = {};
-
     private geoQuery: GeoQuery;
+
+    private renderManager: TileRenderManager;
 
     constructor(props) {
         super(props);
 
+        this.renderManager = new TileRenderManager();
         this.mapElement = React.createRef();
-        this.geoQuery = new GeoQuery(
-            'https://search-ivanstan-fwyclk37rb3t524iwflinclw6i.eu-central-1.es.amazonaws.com',
-            'geojson'
-        );
+        this.geoQuery = new GeoQuery(elasticSearch, index);
 
         this.state = {
             loading: false,
@@ -73,6 +72,23 @@ export class TreeIndexMap extends React.Component<any, TreeIndexMapStateInterfac
             sideBarVisible: true,
         };
     }
+
+    dataStyle = (feature) => {
+        const id = feature.getProperty("DN");
+        const category = getCategory(id);
+
+        return {
+            fillColor: category.color,
+            strokeWeight: 0
+        }
+    };
+
+    clearRenderedTiles = () => {
+        this.renderManager.clearRenderedTiles();
+        this.map.data.forEach((feature) => {
+            this.map.data.remove(feature);
+        });
+    };
 
     componentDidMount = () => {
         this.map = new google.maps.Map(this.mapElement.current, {
@@ -96,30 +112,13 @@ export class TreeIndexMap extends React.Component<any, TreeIndexMapStateInterfac
         });
 
         google.maps.event.addListener(this.map, "zoom_changed", () => {
-            this.clearData();
+            this.clearRenderedTiles();
         });
 
-        this.map.data.setStyle((feature) => {
-
-            console.log(feature);
-
-            const id = feature.getProperty("DN");
-            const category = getCategory(id);
-
-            return {
-                fillColor: category.color,
-                strokeWeight: 0
-            }
-        });
+        this.map.data.setStyle(this.dataStyle);
 
         this.map.data.addListener("mouseover", (event) => {
-            let id = null;
-
-            for (let i in event.feature) {
-                if (event.feature[i] && typeof event.feature[i] === "object" && event.feature[i].hasOwnProperty("DN")) {
-                    id = event.feature[i].DN;
-                }
-            }
+            let id = this.getIndex(event.feature);
 
             if (id !== null) {
                 this.setState({
@@ -129,18 +128,38 @@ export class TreeIndexMap extends React.Component<any, TreeIndexMapStateInterfac
         });
     };
 
+    getIndex(feature) {
+        let index = null;
+
+        for (let i in feature) {
+            if (!feature.hasOwnProperty(i)) {
+                continue;
+            }
+
+            if (feature[i] && typeof feature[i] === "object" && feature[i].hasOwnProperty("DN")) {
+                index = feature[i].DN;
+            }
+        }
+
+        return index;
+    }
+
     loadData = () => {
-        const tiles = this.getTiles();
+        this.geoQuery.getTiles(this.getVisibleTiles()).then(tiles => {
+            tiles.forEach(tile => {
+                if (!this.renderManager.isTileRendered(tile.x, tile.y, tile.z)) {
+                    this.renderManager.setTileRendered(tile.x, tile.y, tile.z);
 
-
-        tiles.forEach((tile) => {
-            let [x, y, z] = tile;
-
-            this.loadTile(x, y, z);
-        });
+                    this.map.data.addGeoJson({
+                        "type": "FeatureCollection",
+                        features: tile.feature.features
+                    });
+                }
+            });
+        }).catch(e => console.log(e));
     };
 
-    getTiles = () => {
+    getVisibleTiles = () => {
         const bounds = this.map.getBounds(),
             boundsNeLatLng = bounds.getNorthEast(),
             boundsSwLatLng = bounds.getSouthWest(),
@@ -155,82 +174,29 @@ export class TreeIndexMap extends React.Component<any, TreeIndexMapStateInterfac
         const tile = globalMercator.lngLatToGoogle([lng, lat], zoom);
         const [minX, minY, maxX, maxY] = globalMercator.googleToBBox(tile);
 
-        this.geoQuery.getForViewPort(maxX, maxY, minX, minY).then((response) => {
+        const tileSizeX = maxX - minX;
+        const tileSizeY = maxY - minY;
 
-            for(let i in response.hits) {
-                let tile = response.hits[i]._source.feature;
+        const maxLat = boundsNwLatLng.lat();
 
-                console.log(tile);
+        while (lat < maxLat) {
+            lng = boundsSwLatLng.lng();
 
-                this.map.data.addGeoJson({
-                    "type": "FeatureCollection",
-                    features: tile.features
-                });
+            let row = [];
+            while (lng < boundsSeLatLng.lng()) {
+                const tile = globalMercator.lngLatToGoogle([lng, lat], zoom);
+
+                row.push(tile);
+
+                lng = lng + tileSizeX;
             }
 
+            tiles = tiles.concat(row);
 
-
-        }).catch(e => console.log(e));
-
-        // const tileSizeX = maxX - minX;
-        // const tileSizeY = maxY - minY;
-        //
-        // const maxLat = boundsNwLatLng.lat();
-        //
-        // while (lat < maxLat) {
-        //     lng = boundsSwLatLng.lng();
-        //
-        //     let row = [];
-        //     while (lng < boundsSeLatLng.lng()) {
-        //         const tile = globalMercator.lngLatToGoogle([lng, lat], zoom);
-        //
-        //         row.push(tile);
-        //
-        //         lng = lng + tileSizeX;
-        //     }
-        //
-        //     tiles = tiles.concat(row);
-        //
-        //     lat = lat + tileSizeY;
-        // }
+            lat = lat + tileSizeY;
+        }
 
         return tiles;
-    };
-
-    loadTile = (x, y, z) => {
-        if (this.isTileLoaded(x, y, z)) {
-            return;
-        }
-
-        const file = this.state.dataSource;
-
-        this.setTile(x, y, z);
-
-
-        this.map.data.loadGeoJson(`${geoJsonServer}/${file}/${z}/${x}/${y}.geojson`);
-    };
-
-    clearData = () => {
-        this.map.data.forEach((feature) => {
-            this.map.data.remove(feature);
-        });
-        this.tiles = {};
-    };
-
-    setTile = (x, y, z) => {
-        if (!this.tiles.hasOwnProperty(x)) {
-            this.tiles[x] = {};
-        }
-
-        if (!this.tiles[x].hasOwnProperty(x)) {
-            this.tiles[x][y] = {};
-        }
-
-        this.tiles[x][y][z] = true;
-    };
-
-    isTileLoaded = (x, y, z) => {
-        return this.tiles.hasOwnProperty(x) && this.tiles[x].hasOwnProperty(y) && this.tiles[x][y].hasOwnProperty(z) && this.tiles[x][y][z] === true;
     };
 
     getButtonClass = (mode: string) => {
@@ -249,7 +215,7 @@ export class TreeIndexMap extends React.Component<any, TreeIndexMapStateInterfac
         this.setState({
             dataSource: dataSource
         });
-        this.clearData();
+        this.clearRenderedTiles();
         this.loadData();
     };
 
@@ -257,7 +223,7 @@ export class TreeIndexMap extends React.Component<any, TreeIndexMapStateInterfac
         this.setState({mode: mode});
 
         if (mode === TreeIndexMap.MODE_TREE) {
-            this.clearData();
+            this.clearRenderedTiles();
 
             const globals: any = window["globals"];
 
@@ -303,7 +269,7 @@ export class TreeIndexMap extends React.Component<any, TreeIndexMapStateInterfac
                         if (item.photo) {
                             const image = globals.baseUrl + "/" + item.photo;
 
-                            content += `<br/><img src="${image}" width="200px"/>`;
+                            content += `<br/><img src="${image}" width="200px" alt=""/>`;
                         }
 
                         if (content) {
@@ -364,7 +330,7 @@ export class TreeIndexMap extends React.Component<any, TreeIndexMapStateInterfac
 
     render = () => {
         const globals: any = window["globals"];
-        const {progress, sideBarVisible} = this.state;
+        const {sideBarVisible} = this.state;
 
         return (
             <>
@@ -374,7 +340,7 @@ export class TreeIndexMap extends React.Component<any, TreeIndexMapStateInterfac
                     {/*</div>*/}
                     <p className="text-center mt-3 h3" style={{color: "#59ba52"}}>Učitavanje</p>
                     <img className={"mx-auto d-block"} width={90}
-                         src={globals.baseUrl + "/public/images/spinner.apng"}/>
+                         src={globals.baseUrl + "/public/images/spinner.apng"} alt="Spinner"/>
                 </Modal>}
                 <div className={"d-flex"} style={{maxHeight: "calc(100vh - 56px)"}}>
                     {sideBarVisible && <SideNavigation className={"bg-light p-3"}>
