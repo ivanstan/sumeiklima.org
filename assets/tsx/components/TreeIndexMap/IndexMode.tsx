@@ -87,9 +87,10 @@ export const getCategory = (index) => {
 
 export class IndexMode extends React.Component<IndexModePropsInterface, IndexModeStateInterface> {
 
-    public static DATA_BETULA_PENDULA = 'betula-pendula';
-    public static DATA_QUERCUS_PATRAEA = 'quercus-petraea';
-    public static DATA_PINUS_NIGRA = 'pinus-nigra';
+    public static NAMESPACE = 'sumeiklima';
+    public static DATA_BETULA_PENDULA = IndexMode.NAMESPACE + '/betula-pendula';
+    public static DATA_QUERCUS_PATRAEA = IndexMode.NAMESPACE + '/quercus-petraea';
+    public static DATA_PINUS_NIGRA = IndexMode.NAMESPACE + '/pinus-nigra';
 
     getButtonClass = (dataSource) => {
         let classes = ['btn', 'd-flex', 'flex-column', 'align-items-center'];

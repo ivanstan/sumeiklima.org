@@ -8,8 +8,9 @@ import {Modal} from "./Modal";
 import * as globalMercator from "global-mercator";
 import {elasticSearch, index} from "../../config";
 import {SideBarToggleButton} from "./SideBarToggleButton";
-import {GeoQuery} from "../../service/GeoQuery";
-import {TileRenderManager} from "../../service/TileRenderManager";
+import {GeoQuery} from "../../service/GeoQuery/GeoQuery";
+import {TileRenderManager} from "../../service/GeoQuery/Service/TileRenderManager";
+import {Query} from "../../service/GeoQuery/Model/Query";
 
 declare var google: any;
 
@@ -145,15 +146,16 @@ export class TreeIndexMap extends React.Component<any, TreeIndexMapStateInterfac
     }
 
     loadData = () => {
-        this.geoQuery.getTiles(this.getVisibleTiles()).then(tiles => {
-            tiles.forEach(tile => {
-                if (!this.renderManager.isTileRendered(tile.x, tile.y, tile.z)) {
-                    this.renderManager.setTileRendered(tile.x, tile.y, tile.z);
+        let query = new Query();
+        query.tiles = this.getVisibleTiles();
+        query.namespace = this.state.dataSource;
 
-                    this.map.data.addGeoJson({
-                        "type": "FeatureCollection",
-                        features: tile.feature.features
-                    });
+        this.geoQuery.getTiles(query).then(tiles => {
+            tiles.forEach(tile => {
+                if (!this.renderManager.isTileRendered(tile)) {
+                    this.renderManager.setTileRendered(tile);
+
+                    this.map.data.addGeoJson(tile.data);
                 }
             });
         }).catch(e => console.log(e));
@@ -184,9 +186,13 @@ export class TreeIndexMap extends React.Component<any, TreeIndexMapStateInterfac
 
             let row = [];
             while (lng < boundsSeLatLng.lng()) {
-                const tile = globalMercator.lngLatToGoogle([lng, lat], zoom);
+                const [x, y, z] = globalMercator.lngLatToGoogle([lng, lat], zoom);
 
-                row.push(tile);
+                row.push({
+                    x: x,
+                    y: y,
+                    z: z,
+                });
 
                 lng = lng + tileSizeX;
             }
