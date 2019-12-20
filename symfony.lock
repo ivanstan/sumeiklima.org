@@ -92,9 +92,6 @@
     "egulias/email-validator": {
         "version": "2.1.7"
     },
-    "facebook/webdriver": {
-        "version": "1.6.0"
-    },
     "fig/link-util": {
         "version": "1.0.0"
     },
@@ -115,6 +112,9 @@
     },
     "pagerfanta/pagerfanta": {
         "version": "v2.1.2"
+    },
+    "php": {
+        "version": "7.4"
     },
     "phpdocumentor/reflection-common": {
         "version": "1.0.1"
@@ -290,9 +290,6 @@
     "symfony/orm-pack": {
         "version": "v1.0.6"
     },
-    "symfony/panther": {
-        "version": "v0.2.0"
-    },
     "symfony/phpunit-bridge": {
         "version": "4.1",
         "recipe": {
@@ -304,6 +301,9 @@
     },
     "symfony/polyfill-intl-icu": {
         "version": "v1.10.0"
+    },
+    "symfony/polyfill-intl-idn": {
+        "version": "v1.13.1"
     },
     "symfony/polyfill-mbstring": {
         "version": "v1.10.0"
