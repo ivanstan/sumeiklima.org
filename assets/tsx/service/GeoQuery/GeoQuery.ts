@@ -16,7 +16,10 @@ export class GeoQuery {
     public async getTiles(query: Query): Promise<GeoJsonTile[]> {
         return await this.request({
             bool: {
-                should: GeoQuery.getTileCollectionQuery(query.tiles),
+                // should: GeoQuery.getTileCollectionQuery(query.tiles),
+                must: {
+                    ...GeoQuery.getCondition("namespace", query.namespace),
+                }
             }
         });
     }
