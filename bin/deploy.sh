@@ -21,13 +21,13 @@ composer install
 print "> yarn build"
 yarn build
 
-print "> Security audit"
+#print "> Security audit"
 #yarn audit
 
-print "> Unit test"
+#print "> Unit test"
 #composer unit-test
 
-print "> Acceptance test"
+#print "> Acceptance test"
 #composer acceptance-test
 
 print "> uploading artifact"
