@@ -12,38 +12,38 @@
                 <div class="col-12">
                     <ul class="navbar-nav mr-auto justify-content-between">
                         <li class="nav-item pl-3 pl-md-0 {% if route == 'app_index' %}active{% endif %}">
-                            <a class="nav-link" href="{{ path('app_index') }}">{{ "nav.homepage"|trans }}
+                            <a class="nav-link" href="{{ path('app_index', {'_locale': app.request.attributes.get('_locale')  | default(default_locale)}) }}">{{ "nav.homepage"|trans }}
                                 {% if route == 'app_index' %}<span class="sr-only">(current)</span>{% endif %}
                             </a>
                         </li>
 
                         <li class="nav-item pl-3 pl-md-0 {% if route == 'app_uloga_suma' %}active{% endif %}">
-                            <a class="nav-link" href="{{ path('app_uloga_suma') }}">{{ "nav.forest"|trans }}
+                            <a class="nav-link" href="{{ path('app_uloga_suma', {'_locale': app.request.attributes.get('_locale') | default(default_locale)}) }}">{{ "nav.forest"|trans }}
                                 {% if route == 'app_uloga_suma' %}<span class="sr-only">(current)</span>{% endif %}
                             </a>
                         </li>
 
                         <li class="nav-item pl-3 pl-md-0 {% if route == 'app_vrste_drveca' %}active{% endif %}">
-                            <a class="nav-link" href="{{ path('app_vrste_drveca') }}">{{ "nav.trees"|trans }}
+                            <a class="nav-link" href="{{ path('app_vrste_drveca', {'_locale': app.request.attributes.get('_locale') | default(default_locale)}) }}">{{ "nav.trees"|trans }}
                                 {% if route == 'app_vrste_drveca' %}<span class="sr-only">(current)</span>{% endif %}
                             </a>
                         </li>
 
 
                         <li class="nav-item pl-3 pl-md-0 {% if route == 'app_data_index' %}active{% endif %}">
-                            <a class="nav-link" href="{{ path('app_data_index') }}">{{ "nav.plant"|trans }}
+                            <a class="nav-link" href="{{ path('app_data_index', {'_locale': app.request.attributes.get('_locale') | default(default_locale)}) }}">{{ "nav.plant"|trans }}
                                 {% if route == 'app_data_index' %}<span class="sr-only">(current)</span>{% endif %}
                             </a>
                         </li>
 
                         <li class="nav-item pl-3 pl-md-0 {% if route == 'app_projekat' %}active{% endif %}">
-                            <a class="nav-link" href="{{ path('app_projekat') }}">{{ "nav.project"|trans }}
+                            <a class="nav-link" href="{{ path('app_projekat', {'_locale': app.request.attributes.get('_locale') | default(default_locale)}) }}">{{ "nav.project"|trans }}
                                 {% if route == 'app_projekat' %}<span class="sr-only">(current)</span>{% endif %}
                             </a>
                         </li>
 
                         <li class="nav-item pl-3 pl-md-0 {% if route == 'app_contact' %}active{% endif %}">
-                            <a class="nav-link" href="{{ path('app_contact') }}">{{ "nav.contact"|trans }}
+                            <a class="nav-link" href="{{ path('app_contact', {'_locale': app.request.attributes.get('_locale')  | default(default_locale)}) }}">{{ "nav.contact"|trans }}
                                 {% if route == 'app_contact' %}<span class="sr-only">(current)</span>{% endif %}
                             </a>
                         </li>

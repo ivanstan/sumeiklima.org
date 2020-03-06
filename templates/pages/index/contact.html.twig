@@ -61,7 +61,7 @@
         <div class="row mt-3">
             <div class="col-lg-6 mx-auto">
                 {% include 'components/messages.html.twig' %}
-                <form method="post" action="{{ path('app_contact') }}">
+                <form method="post" action="{{ path('app_contact', {'_locale': app.request.attributes.get('_locale') | default(default_locale)}) }}">
                     <input class="form-control mb-3" type="text" name="name" placeholder="Ime (opciono)">
                     <input class="form-control mb-3" required type="email" name="email" value="{{ app.user.email|default('') }}" placeholder="Imejl">
                     <textarea name="content" rows="6" required class="form-control mb-3" placeholder="Poruka"></textarea>
