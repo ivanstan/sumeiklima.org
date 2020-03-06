@@ -155,3 +155,21 @@ security:
   current_password: Current Password
 profile:
   title: Profile
+
+front:
+  lead: Portal Forest and Climate offers information about the most suitable area for afforestation.
+    Using satellite and geospatial data, and multicriteria analysis we have identified the most
+    suitable locations for planting sessile oak, black pine and birch. Portal was developed within
+    <a target="_blank" href="https://www.rs.undp.org/content/serbia/en/home/presscenter/articles/2019/novi-izazovi-otvorenih-podataka.html">
+    open data challenge</a> organized by UNPD Serbia and Office for IT and e-Government.
+
+nav:
+  homepage: Homepage
+  plant: Where to plant?
+  contact: Contact
+  project: Project
+  trees: Types of trees
+  forest: Importance of forests
+
+details: Details...
+app_title: Forest and Climate
