@@ -173,3 +173,14 @@ nav:
 
 details: Details...
 app_title: Forest and Climate
+source: Source
+download: Download
+send: Send
+email: Email
+name: Name
+message: Message
+
+tree:
+  pinus: Black pine
+  querqus: Sessile oak
+  betula: Silver birch
