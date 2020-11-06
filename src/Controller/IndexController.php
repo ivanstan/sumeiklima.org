@@ -63,7 +63,7 @@ class IndexController extends AbstractController
     }
 
     /**
-     * @Route("/gde-pošumiti", name="app_data_index")
+     * @Route("/gde-posumiti", name="app_data_index")
      */
     public function data(): Response
     {

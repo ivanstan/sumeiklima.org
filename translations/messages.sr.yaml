@@ -1,0 +1,28 @@
+front:
+  lead: Portal Šume i klima nudi podatke o pogodnosti terena za pošumljavanje. Primenom satelitskih i
+    geoprostornih podataka, kao i višekriterijumske analize identifikovane su najpogodnije lokacije za
+    šume hrasta kitnjaka, crnog bora i breze. Portal je razvijen u okviru <a target="_blank"
+    href="http://www.rs.undp.org/content/serbia/sr/home/presscenter/articles/2019/novi-izazovi-otvorenih-podataka.html">
+    Izazova otvorenih podataka</a>.
+
+nav:
+  homepage: Naslovna
+  contact: Kontakt
+  plant: Gde pošumiti?
+  project: O projektu
+  trees: Vrste drveća
+  forest: Uloga šuma
+
+details: Detaljnije...
+app_title: Šume i Klima
+source: Izvor
+download: Preuzimanje podataka
+send: Pošalji
+email: Imejl
+name: Ime
+message: Poruka
+
+tree:
+  pinus: Crni bor
+  querqus: Hrast kitnjak
+  betula: Breza

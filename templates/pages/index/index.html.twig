@@ -1,6 +1,6 @@
 {% extends 'pages/container.html.twig' %}
 
-{% block title %}Naslovna | {{ parent() }}{% endblock %}
+{% block title %}{{"nav.homepage"|trans}} | {{ parent() }}{% endblock %}
 
 {% block content %}
     <div class="container h-100 pb-5 bg-light">
@@ -14,22 +14,26 @@
 
         <div class="row bg-light py-3">
             <div class="col-12">
-                <h1 class="text-primary text-center" style="margin-top: -30px">Šume i Klima</h1>
-                <p class="text-center lead">Portal Šume i klima nudi podatke o pogodnosti terena za pošumljavanje.
-                    Primenom
-                    satelitskih i
-                    geoprostornih podataka, kao i višekriterijumske analize identifikovane su najpogodnije lokacije za
-                    šume hrasta kitnjaka, crnog bora i breze. Portal je razvijen u okviru <a target="_blank"
-                                                                                             href="http://www.rs.undp.org/content/serbia/sr/home/presscenter/articles/2019/novi-izazovi-otvorenih-podataka.html">Izazova
-                        otvorenih
-                        podataka</a>.</p>
+                <h1 class="text-primary text-center" style="margin-top: -30px">{{ "app_title"|trans }}</h1>
+                <p class="text-center lead">
+                    {{ "front.lead"|trans|raw }}
+                </p>
             </div>
         </div>
 
         <div class="row bg-light py-4">
             <div class="col-12">
                 <div class="justify-content-center d-flex">
-                    <a href="{{ path('app_data_index') }}" class="btn btn-primary btn-lg">Gde pošumiti?</a>
+                    <a href="{{ path('app_data_index', {'_locale': app.request.attributes.get('_locale') | default(default_locale)}) }}" class="btn btn-primary btn-lg">{{ "nav.plant"|trans }}</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="row bg-light py-2">
+            <div class="col-12">
+                <div class="justify-content-center d-flex">
+                    <a class="pr-2" href="{{ path('app_index', {'_locale': 'en'}) }}">English</a> |
+                    <a class="pl-2" href="{{ path('app_index', {'_locale': 'sr'}) }}">Serbian</a>
                 </div>
             </div>
         </div>
@@ -38,39 +42,39 @@
             <div class="col-lg-4 bg-gray mb-3">
                 <div class="card">
                     <div class="card-body">
-                        <a href="{{ path('app_vrste_drveca') }}"><h4 class="card-title text-center">Uloga šuma</h4>
+                        <a href="{{ path('app_uloga_suma', {'_locale': app.request.attributes.get('_locale') | default(default_locale)}) }}"><h4 class="card-title text-center">{{ "nav.forest"|trans }}</h4>
                             <div style="max-height: 220px" class="overflow-hidden">
                                 <img class="mx-auto d-block" width="300px"
                                      src="{{ asset('public/images/uloga-sume.svg') }}">
                             </div>
                         </a>
-                        <a href="{{ path('app_uloga_suma') }}" class="card-link float-right">Detaljnije...</a>
+                        <a href="{{ path('app_uloga_suma', {'_locale': app.request.attributes.get('_locale') | default(default_locale)}) }}" class="card-link float-right">{{ "details"|trans }}</a>
                     </div>
                 </div>
             </div>
             <div class="col-lg-4 bg-gray mb-3">
                 <div class="card">
                     <div class="card-body">
-                        <a href="{{ path('app_vrste_drveca') }}"><h4 class="card-title text-center">Vrste drveća</h4>
+                        <a href="{{ path('app_vrste_drveca', {'_locale': app.request.attributes.get('_locale') | default(default_locale)}) }}"><h4 class="card-title text-center">{{ "nav.trees"|trans }}</h4>
                             <div style="max-height: 264px; margin-top: -44px;" class="overflow-hidden">
                                 <img class="mx-auto d-block" width="300px"
                                      src="{{ asset('public/images/vrste-drveca.svg') }}">
                             </div>
                         </a>
-                        <a href="{{ path('app_vrste_drveca') }}" class="card-link float-right">Detaljnije...</a>
+                        <a href="{{ path('app_vrste_drveca', {'_locale': app.request.attributes.get('_locale') | default(default_locale)}) }}" class="card-link float-right">{{ "details"|trans }}</a>
                     </div>
                 </div>
             </div>
             <div class="col-lg-4 bg-gray mb-3">
                 <div class="card">
                     <div class="card-body">
-                        <a href="{{ path('app_projekat') }}"><h4 class="card-title text-center">O projektu</h4>
-                            <div style="max-height: 264px; margin-top: -44px;" class="overflow-hidden">
+                        <a href="{{ path('app_projekat', {'_locale': app.request.attributes.get('_locale') | default(default_locale)}) }}"><h4 class="card-title text-center">{{ "nav.project"|trans }}</h4>
+                            <div style="height: 220px;" class="overflow-hidden">
                                 <img style="padding: 30px 0" class="mx-auto d-block" width="200px"
                                      src="{{ asset('public/images/logo.png') }}">
                             </div>
                         </a>
-                        <a href="{{ path('app_projekat') }}" class="card-link float-right">Detaljnije...</a>
+                        <a href="{{ path('app_projekat', {'_locale': app.request.attributes.get('_locale') | default(default_locale)}) }}" class="card-link float-right">{{ "details"|trans }}</a>
                     </div>
                 </div>
             </div>

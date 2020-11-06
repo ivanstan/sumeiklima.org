@@ -1,9 +1,9 @@
 {% extends 'pages/container.html.twig' %}
 
-{% block title %}Gde pošumiti? | {{ parent() }}{% endblock %}
+{% block title %}{{"nav.plant"|trans}} | {{ parent() }}{% endblock %}
 
 {% block content %}
-    <div id="tree-index-map"></div>
+    <div id="tree-index-map" data-locale="{{ app.request.attributes.get('_locale') | default(default_locale) }}"></div>
 {% endblock %}
 
 {% block javascripts %}

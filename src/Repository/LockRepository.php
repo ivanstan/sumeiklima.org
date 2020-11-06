@@ -7,18 +7,15 @@ use App\Event\SecuritySubscriber;
 use App\Service\DateTimeService;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
-use Symfony\Bridge\Doctrine\RegistryInterface;
+use Doctrine\Persistence\ManagerRegistry;
 
 class LockRepository extends ServiceEntityRepository
 {
-    public function __construct(RegistryInterface $registry)
+    public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Lock::class);
     }
 
-    /**
-     * @return Lock[]
-     */
     public function findAll(): QueryBuilder
     {
         $builder = $this

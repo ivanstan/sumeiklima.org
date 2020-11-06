@@ -1,6 +1,6 @@
 {% extends 'pages/container.html.twig' %}
 
-{% block title %}O projektu | {{ parent() }}{% endblock %}
+{% block title %}{{ "nav.project"|trans }} | {{ parent() }}{% endblock %}
 
 {% block content %}
     <div class="container pb-5 bg-light overflow-hidden">
@@ -13,91 +13,182 @@
         </div>
 
         <div class="bg-light p-3">
-            <h1>O Projektu</h1>
+            <h1>{{ "nav.project"|trans }}</h1>
 
-            <p>Portal Šume i klima je pobedničko rešenje na Izazovu otvorenih podataka – Životna
-                sredina i mi koji je
-                objavio <a target="_blank"
-                           href="http://www.rs.undp.org/content/serbia/sr/home.html">Program
+            <p>
+                {% if app.request.attributes.get('_locale') | default(default_locale) == 'en' %}
+                    Portal Forest and Climate is the winning solution in the Open Data Challenge - Environment
+                    and Us, published by the United Nations Development Program (UNDP) in partnership with
+                    the Office of Information Technology and E-Governance. The portal was developed by:
+                {% else %}
+                    Portal Šume i klima je pobedničko rešenje na Izazovu otvorenih podataka – Životna
+                    sredina i mi koji je
+                    objavio <a target="_blank"
+                               href="http://www.rs.undp.org/content/serbia/sr/home.html">Program
                     Ujedinjenih
                     nacija za razvoj (UNDP)</a> u partnerstvu <a target="_blank"
                                                                  href="https://www.ite.gov.rs/">Kancelarije
                     za informacione
                     tehnologije i elektronsku upravu</a>. Portal su
-                razvili:
+                    razvili:
+                {% endif %}
+
+
             </p>
             <ul>
                 <li>
-                    <a href="https://www.facebook.com/crnog1/" target="_blank">Centar za razvoj
-                        neformalnog obrazovanja
-                        građana – CRNOG</a>
+                    <a href="https://www.facebook.com/crnog1/" target="_blank">
+                        {% if app.request.attributes.get('_locale') | default(default_locale) == 'en' %}
+                            Center for informal civil education (CRNOG)
+                        {% else %}
+                            Centar za razvoj
+                            neformalnog obrazovanja
+                            građana – CRNOG
+                        {% endif %}
+                    </a>
                 </li>
                 <li>
-                    <a href="https://www.serbiancaseforspace.com/" target="_blank">Srpski zalog za
-                        svemir</a>
+                    <a href="https://www.serbiancaseforspace.com/" target="_blank">
+                        {% if app.request.attributes.get('_locale') | default(default_locale) == 'en' %}
+                            Serbian Case for Space Foundation
+                        {% else %}
+                            Srpski zalog za svemir
+                        {% endif %}
+                    </a>
 
                 </li>
                 <li>
-                    <a href="http://jedanstepen.org/sr/" target="_blank">Jedan stepen Srbija</a>
+                    <a href="http://jedanstepen.org/sr/" target="_blank">
+                        {% if app.request.attributes.get('_locale') | default(default_locale) == 'en' %}
+                            One Degree Serbia
+                        {% else %}
+                            Jedan stepen Srbija
+                        {% endif %}
+                    </a>
                 </li>
             </ul>
 
-            <p>Prvobitni algoritam je razvijen u okviru projekta <a target="_blank"
-                                                                    href="http://jedanstepen.org/wp-content/uploads/2019/01/Sume-i-klima-Brosura.pdf">Šume
+            <p>
+                {% if app.request.attributes.get('_locale') | default(default_locale) == 'en' %}
+                    The original algorithm was developed as part of the <a target="_blank"
+                                                                           href="http://jedanstepen.org/wp-content/uploads/2019/01/Sume-i-klima-Brosura.pdf">Forest
+                    and Climate</a> project, which was
+                    supported in 2018 by the Ministry of Environmental Protection of the Republic of Serbia.
+                    The portal was created based on an advanced version of the algorithm:
+                {% else %}
+                    Prvobitni algoritam je razvijen u okviru projekta <a target="_blank"
+                                                                         href="http://jedanstepen.org/wp-content/uploads/2019/01/Sume-i-klima-Brosura.pdf">Šume
                     i klima</a>, koje je u 2018. godini
-                podržalo Ministarstvo zaštite životne sredine Republike Srbije. Portal je izrađen na
-                osnovu unapređenje
-                verzije algoritma:
+                    podržalo Ministarstvo zaštite životne sredine Republike Srbije. Portal je izrađen na
+                    osnovu unapređenje
+                    verzije algoritma:
+                {% endif %}
             </p>
             $$S = 0,25P+0,20C+0,15M+0,12G+0,09D+0,07F+0,05W+0,04L+0,03R$$
-            <p>gde je:</p>
-
             <p>
-                S – pogodnost terena za pošumljavanje<br>
-                P – tip zemljišta<br>
-                C – klimatski uslovi (sadašnjost i budućnost)<br>
-                M – geomorfološki uslovi<br>
-                G – geološka podloga<br>
-                D – suša<br>
-                F – ranjivost od požara<br>
-                W – hidrološki uslovi<br>
-                L – namena zemljišta<br>
-                R – blizina saobraćajnice<br>
+                {% if app.request.attributes.get('_locale') | default(default_locale) == 'en' %}
+                    Legend:
+                {% else %}
+                    gde je:
+                {% endif %}
             </p>
 
             <p>
-                Formula je dobijena primenom analitičko hijerarhijskog procesa. Od krajnjih
-                rezultata su izuzete
-                površine koje su već pokrivene šumama i zaštićena područja na kojima
-                je potrebno posebno
-                planirati razvoj šumskog pokrivača. Algoritam ne razmatra planska i strateška
-                dokumenta, zbog čega se
-                svim korisnica preporučuje da pre sadnje drveća kontaktiraju nadležne institucije.
+                {% if app.request.attributes.get('_locale') | default(default_locale) == 'en' %}
+                    S – terrain suitability for afforestation<br>
+                    P - type of land<br>
+                    C - climate conditions (present and future)<br>
+                    M - geomorphological conditions<br>
+                    G - geological background<br>
+                    D - drought<br>
+                    F - fire vulnerability<br>
+                    W - hydrological conditions<br>
+                    L - purpose of land<br>
+                    R - proximity to the road<br>
+                {% else %}
+                    S – pogodnost terena za pošumljavanje<br>
+                    P – tip zemljišta<br>
+                    C – klimatski uslovi (sadašnjost i budućnost)<br>
+                    M – geomorfološki uslovi<br>
+                    G – geološka podloga<br>
+                    D – suša<br>
+                    F – ranjivost od požara<br>
+                    W – hidrološki uslovi<br>
+                    L – namena zemljišta<br>
+                    R – blizina saobraćajnice<br>
+                {% endif %}
             </p>
 
             <p>
-                Primena algoritma je podrazumevala primenu geografskih informacionih sistema,
-                odnosno QGIS besplatnog
-                programa. Korišćeni su otvoreni podaci sa različitih platformi (<a target="_blank"
-                                                                                   href="https://data.gov.rs/sr/">https://data.gov.rs/sr/</a>,
-                <a href="https://www.copernicus.eu/en"
-                   target="_blank">https://www.copernicus.eu/en</a>, <a
+                {% if app.request.attributes.get('_locale') | default(default_locale) == 'en' %}
+                    The formula was obtained by applying an analytical hierarchical process. Areas already
+                    covered by forests and protected areas requiring special planning for forest development
+                    are excluded from the final results. The algorithm does not consider planning and strategic
+                    documents, which is why all users are advised to contact the competent institutions before
+                    planting trees.
+                {% else %}
+                    Formula je dobijena primenom analitičko hijerarhijskog procesa. Od krajnjih
+                    rezultata su izuzete
+                    površine koje su već pokrivene šumama i zaštićena područja na kojima
+                    je potrebno posebno
+                    planirati razvoj šumskog pokrivača. Algoritam ne razmatra planska i strateška
+                    dokumenta, zbog čega se
+                    svim korisnica preporučuje da pre sadnje drveća kontaktiraju nadležne institucije.
+                {% endif %}
+
+            </p>
+
+            <p>
+                {% if app.request.attributes.get('_locale') | default(default_locale) == 'en' %}
+                    Creation of the algorithm included the application of geographical information systems, or
+                    QGIS freeware. Open data from different platforms (<a target="_blank"
+                                                                          href="https://data.gov.rs/sr/">https://data.gov.rs/sr/</a>,
+                    <a href="https://www.copernicus.eu/en"
+                       target="_blank">https://www.copernicus.eu/en</a>, <a
+                        href="https://www.diva-gis.org/"
+                        target="_blank">https://www.diva-gis.org/</a>, etc.) was used, where the end
+                    result depends on the quality of the input data.
+                {% else %}
+                    Primena algoritma je podrazumevala primenu geografskih informacionih sistema,
+                    odnosno QGIS besplatnog
+                    programa. Korišćeni su otvoreni podaci sa različitih platformi (<a target="_blank"
+                                                                                       href="https://data.gov.rs/sr/">https://data.gov.rs/sr/</a>,
+                    <a href="https://www.copernicus.eu/en"
+                       target="_blank">https://www.copernicus.eu/en</a>, <a
                         href="https://www.diva-gis.org/"
                         target="_blank">https://www.diva-gis.org/</a> i sl.), pri čemu
-                krajnji rezultat zavisi od
-                kvaliteta ulaznih podataka.
+                    krajnji rezultat zavisi od
+                    kvaliteta ulaznih podataka.
+                {% endif %}
             </p>
 
-            <p>Postoje dva pravca daljeg razvoja portala:</p>
+            <p>
+                {% if app.request.attributes.get('_locale') | default(default_locale) == 'en' %}
+                    There are two directions for further development of the portal:
+                {% else %}
+                    Postoje dva pravca daljeg razvoja portala:
+                {% endif %}
+            </p>
 
             <ol>
-                <li>Unapređenje kvaliteta ulaznih podataka kojima će se dobiti kvalitetniji izlazni
-                    podaci.
+                <li>
+                    {% if app.request.attributes.get('_locale') | default(default_locale) == 'en' %}
+                        Improving the quality of input data that will produce better quality output.
+                    {% else %}
+                        Unapređenje kvaliteta ulaznih podataka kojima će se dobiti kvalitetniji izlazni
+                        podaci.
+                    {% endif %}
                 </li>
-                <li>Povećanja broja vrsta za koje će biti prikazana pogodnost.</li>
+                <li>
+                    {% if app.request.attributes.get('_locale') | default(default_locale) == 'en' %}
+                        Increases in the number of species that will be eligible for afforestation.
+                    {% else %}
+                        Povećanja broja vrsta za koje će biti prikazana pogodnost.
+                    {% endif %}
+                </li>
             </ol>
 
-            <h2>Preuzimanje podataka</h2>
+            <h2>{{ "download"|trans }}</h2>
 
             <ul>
                 <li>
@@ -112,32 +203,43 @@
             </ul>
         </div>
 
-        <div class="row bg-white py-4">
+        <div class="row bg-white py-4 d-none d-lg-block">
             <div class="col-12 d-block d-lg-flex align-items-center justify-content-between">
-                <div style="width: 255px" class="mx-auto mx-lg-0">
+                <div class="flex-grow-1 d-flex align-items-center justify-content-between">
+                    <img width="80%" src="{{ asset('public/images/sponsors/e-uprava.png') }}">
+                    <img width="40%" src="{{ asset('public/images/sponsors/wbg.jpg') }}">
+                </div>
+                <div class="brits-logos">
                     <img width="150px" src="{{ asset('public/images/sponsors/uk-embassy.jpg') }}">
                     <img width="100px" src="{{ asset('public/images/sponsors/uk-aid.png') }}">
                 </div>
-                <div class="flex-grow-1 d-flex align-items-center justify-content-between other-logos">
-                    <img width="100%" src="{{ asset('public/images/sponsors/wbg.jpg') }}">
-                    <img width="100%" src="{{ asset('public/images/sponsors/e-uprava.png') }}">
-                    <img width="100%" src="{{ asset('public/images/sponsors/undp.jpg') }}">
+                <div class="flex-grow-1 d-flex align-items-center justify-content-between">
+                    <img width="20%" src="{{ asset('public/images/sponsors/undp.jpg') }}">
+                    <img width="60%" src="{{ asset('public/images/sponsors/serbiacreates.png') }}">
                 </div>
             </div>
         </div>
         <div class="row mt-4">
             <div class="col-12">
                 <p class="text-muted" style="font-size: 12px">
-                    * Algoritam na osnovu kog je izračunata pogodnost za pošumljavanja ne razmatra planska i strateška
-                    dokumenta, zbog čega se svim korisnica preporučuje da pre sadnje drveća kontaktiraju nadležne
-                    institucije.
+                    {% if app.request.attributes.get('_locale') | default(default_locale) == 'en' %}
+                        * The algorithm for calculating suitability for afforestation does not consider planning and strategic documents, which is why it is recommended that all beneficiaries contact the competent institutions before planting trees.
+                    {% else %}
+                        * Algoritam na osnovu kog je izračunata pogodnost za pošumljavanja ne razmatra planska i strateška
+                        dokumenta, zbog čega se svim korisnica preporučuje da pre sadnje drveća kontaktiraju nadležne
+                        institucije.
+                    {% endif %}
                 </p>
 
                 <p class="text-muted" style="font-size: 12px">
-                    ** Za sadržaj ovog vebsajta odgovorni su isključivo autori, a izneti stavovi ne
-                    predstavljaju nužno stavove Vlade Ujedinjenog Kraljevstva, Svetske banke,
-                    Kancelarije za informacione tehnologije i elektronsku upravu, Ujedinjenih nacija
-                    i Programa za razvoj Ujedinjenih nacija.
+                    {% if app.request.attributes.get('_locale') | default(default_locale) == 'en' %}
+                        The contents of this website are the sole responsibility of the authors, and the views expressed do not necessarily represent those of the Government of the United Kingdom, the World Bank, the Office of IT and e-Governance, the United Nations and the United Nations Development Program.
+                    {% else %}
+                        ** Za sadržaj ovog vebsajta odgovorni su isključivo autori, a izneti stavovi ne
+                        predstavljaju nužno stavove Vlade Ujedinjenog Kraljevstva, Svetske banke,
+                        Kancelarije za informacione tehnologije i elektronsku upravu, Ujedinjenih nacija
+                        i Programa za razvoj Ujedinjenih nacija.
+                    {% endif %}
                 </p>
             </div>
         </div>

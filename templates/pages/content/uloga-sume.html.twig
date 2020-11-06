@@ -1,6 +1,6 @@
 {% extends 'pages/container.html.twig' %}
 
-{% block title %}Uloga šuma | {{ parent() }}{% endblock %}
+{% block title %}{{ "nav.forest"|trans }} | {{ parent() }}{% endblock %}
 
 {% block content %}
     <div class="container pb-5 bg-light overflow-hidden">
@@ -12,38 +12,65 @@
         </div>
 
         <div class="bg-light p-3">
-            <h1>Uloga šuma</h1>
-            <p>Prema Organizaciji ujedinjenih nacija za hranu i poljoprivredu uloga šuma je višestruka [<a
-                        href="#1">1</a>]:</p>
+            <h1>{{ "nav.forest"|trans }}</h1>
+            {% if app.request.attributes.get('_locale') | default(default_locale) == 'en' %}
+                <p>According to Food and Agriculture Organization of the United Nations forests provide a wide
+                    range of benefits [<a
+                            href="#1">1</a>]:</p>
+            {% else %}
+                <p>Prema Organizaciji ujedinjenih nacija za hranu i poljoprivredu uloga šuma je višestruka [<a
+                            href="#1">1</a>]:</p>
+            {% endif %}
 
             <div>
-                <ul>
-                    <li>prevencija erozije zemljišta (denudacije) na terenima sa velikim nagibom</li>
-                    <li>smanjenje rizika od lavina i naglog topljenja snega u oblastima koje su zimi prekrivene snegom
-                    </li>
-                    <li>zaštita od eolske erozije (vetar)</li>
-                    <li>zaštita od abrazije (šume mangrova)</li>
-                    <li>pomaže u infiltraciji vode i nutritijenata u podzemne slojeve</li>
-                    <li>utočište za ugrožene vrste i „banka gena“ (u tropskim kišnim šumama u Peruu na samo jednom
-                        hektaru
-                        površine moguće je naći i do 300 različitih vrsta)
-                    </li>
-                    <li>dom domorodačkim plemenima (preko 200 miliona ljudi živi u tropskim kišnim šumama)</li>
-                    <li>resurs za drvno-prerađivačku i papirnu industriju (međunarodna trgovina drvnim proizvodima
-                        iznosi 36
-                        milijardi $US, a papirom i pulpom 60 milijardi $ US)
-                    </li>
-                    <li>stanište biljaka i gljiva koje se koriste u medicinske svrhe i ishrani
-                        u fazi rasta šuma apsorbuje ugljen-dioksid
-                    </li>
-                    <li>reguliše mikroklimatske uslove (temperatura u letnjim mesecima je niža, a vlažnost veća; tri
-                        dobro
-                        locirana drveta oko kuće mogu smanjiti upotrebu klima uređaja i za 15%).
-                    </li>
-                </ul>
+                {% if app.request.attributes.get('_locale') | default(default_locale) == 'en' %}
+                    <ul>
+                        <li>Forests and woodlands have an important role in binding the soil and protecting it
+                            against erosion and landslide.</li>
+                        <li>Forests help regulate the rate at which the snow melts and also reduce the danger of
+                            avalanches.</li>
+                        <li>Forests provide protection against wind erosion</li>
+                        <li>Used judiciously in farming systems they help maintain the fertility of the soil.</li>
+                        <li>Forests have an important role as havens for wildlife and for the protection of
+                            endangered species of plants and animals.</li>
+                        <li>Forests and woodlands provide a dwelling place for more than 200 million people in
+                            the tropics</li>
+                        <li>Wood is one of the most versatile and ubiquitous products in human use, from the
+                            timber used in construction and furniture to cardboard, chipboard, paper.</li>
+                        <li>Because trees, like all green plants, absorb carbon dioxide during photosynthesis,
+                        reforestation is often suggested as a means of countering the increase in greenhouse
+                            gases in the atmosphere.</li>
+                    </ul>
+                {% else %}
+                    <ul>
+                        <li>prevencija erozije zemljišta (denudacije) na terenima sa velikim nagibom</li>
+                        <li>smanjenje rizika od lavina i naglog topljenja snega u oblastima koje su zimi prekrivene
+                            snegom
+                        </li>
+                        <li>zaštita od eolske erozije (vetar)</li>
+                        <li>zaštita od abrazije (šume mangrova)</li>
+                        <li>pomaže u infiltraciji vode i nutritijenata u podzemne slojeve</li>
+                        <li>utočište za ugrožene vrste i „banka gena“ (u tropskim kišnim šumama u Peruu na samo jednom
+                            hektaru
+                            površine moguće je naći i do 300 različitih vrsta)
+                        </li>
+                        <li>dom domorodačkim plemenima (preko 200 miliona ljudi živi u tropskim kišnim šumama)</li>
+                        <li>resurs za drvno-prerađivačku i papirnu industriju (međunarodna trgovina drvnim proizvodima
+                            iznosi 36
+                            milijardi $US, a papirom i pulpom 60 milijardi $ US)
+                        </li>
+                        <li>stanište biljaka i gljiva koje se koriste u medicinske svrhe i ishrani
+                            u fazi rasta šuma apsorbuje ugljen-dioksid
+                        </li>
+                        <li>reguliše mikroklimatske uslove (temperatura u letnjim mesecima je niža, a vlažnost veća; tri
+                            dobro
+                            locirana drveta oko kuće mogu smanjiti upotrebu klima uređaja i za 15%).
+                        </li>
+                    </ul>
+                {% endif %}
 
                 <section>
-                    <h4>Izvor:</h4>
+                    <h4>{{ "source"|trans }}:</h4>
                     <div class="ml-3 overflow-hidden" id="1">
                         <p><a target="_blank" href="http://www.fao.org/docrep/t0829e/T0829E05.htm">http://www.fao.org/docrep/t0829e/T0829E05.htm</a>
                         </p>

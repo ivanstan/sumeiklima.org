@@ -1,63 +1,108 @@
 {% extends 'pages/container.html.twig' %}
 
-{% block title %}Vrste drveća | {{ parent() }}{% endblock %}
+{% block title %}{{"nav.trees"|trans}} | {{ parent() }}{% endblock %}
 
 {% block content %}
     <div class="container pb-5 bg-light py-3 overflow-hidden">
-        <h1 class="p-3">Vrste drveća</h1>
+        <h1 class="p-3">{{"nav.trees"|trans}}</h1>
 
-        <h2 class="p-3">Crni bor</h2>
+        <h2 class="p-3">{{"tree.pinus"|trans}}</h2>
 
         <div class="row">
             <div class="forest" style="background-image: url({{ asset('public/images/bor.jpg') }})"></div>
         </div>
 
-        <p class="p-3">Rod Pinus, sa više od 110 opisanih vrsta, predstavlja najveći recentni rod četinara. Prirodna
-            distribucija
-            roda ograničena je na severnu hemisferu, izuzev jedne populacije P. merkusii koja se nalazi južno od
-            ekvatora na Sumatri [<a href="#refs">1</a>]. Crni bor (Pinus nigra) je jedan od dugoživećih vrsta četinara, preko 400 godina.
-            [<a href="#refs">2</a>]. Ekološki faktori bitno utiču na maksimalnu visinu crnog bora, a u optimalnim uslovima može da izraste i
-            do 40 metara u visinu. [<a href="#refs">2</a>]. Može da se održi u krajnje ekstremnim uslovima nagiba i podloge, na često
-            skeletnom zemljištu i na gotovo potpuno okomitim krečnjačkim, dolomitskim i serpentinskim liticama. Zbog
-            toga predstavlja jednu od najvažnijih vrsta za pošumljavanje suvih i kamenitih terena [<a href="#refs">3</a>]. Drvo crnog bora
-            se koristilo u brodogradnji. Crni bor je cenjen i za uređenje, kako u parkovima (izolovano drveće ili u
-            grupama), tako i u urbanom i industrijskom kontekstu zbog tolerancije na zagađenje.</p>
+        {% if app.request.attributes.get('_locale') | default(default_locale) == 'en' %}
+            <p class="p-3">
+                Genus Pinus, with more than 110 species described, is the largest recent conifer genus. The
+                natural distribution of the genus is restricted to the northern hemisphere, except for one P.
+                merkusii population located south of the equator at Sumatra [<a href="#refs">1</a>]. Black pine (Pinus nigra) is
+                one of the long-lived conifer species, over 400 years old. [<a href="#refs">2</a>]. Environmental factors
+                significantly affect the maximum height of black pine, and in optimal conditions can grow up
+                to 40 meters in height. [<a href="#refs">2</a>]. It can be maintained in extreme slope and bedrock conditions,
+                on often skeletal soil and on almost completely vertical limestone, dolomitic and serpentine
+                cliffs. It is therefore one of the most important species for afforestation of dry and rocky
+                terrains [<a href="#refs">3</a>]. Black pine wood was used in shipbuilding. Black pine is also valued for
 
-        <h2 class="p-3">Breza</h2>
+                landscaping, both in parks (isolated trees or in groups), and in urban and industrial contexts
+                due to its tolerance to pollution.
+            </p>
+        {% else %}
+            <p class="p-3">Rod Pinus, sa više od 110 opisanih vrsta, predstavlja najveći recentni rod četinara. Prirodna
+                distribucija
+                roda ograničena je na severnu hemisferu, izuzev jedne populacije P. merkusii koja se nalazi južno od
+                ekvatora na Sumatri [<a href="#refs">1</a>]. Crni bor (Pinus nigra) je jedan od dugoživećih vrsta četinara, preko 400 godina.
+                [<a href="#refs">2</a>]. Ekološki faktori bitno utiču na maksimalnu visinu crnog bora, a u optimalnim uslovima može da izraste i
+                do 40 metara u visinu. [<a href="#refs">2</a>]. Može da se održi u krajnje ekstremnim uslovima nagiba i podloge, na često
+                skeletnom zemljištu i na gotovo potpuno okomitim krečnjačkim, dolomitskim i serpentinskim liticama. Zbog
+                toga predstavlja jednu od najvažnijih vrsta za pošumljavanje suvih i kamenitih terena [<a href="#refs">3</a>]. Drvo crnog bora
+                se koristilo u brodogradnji. Crni bor je cenjen i za uređenje, kako u parkovima (izolovano drveće ili u
+                grupama), tako i u urbanom i industrijskom kontekstu zbog tolerancije na zagađenje.</p>
+        {% endif %}
+
+        <h2 class="p-3">{{"tree.betula"|trans}}</h2>
 
         <div class="row bg-light">
             <div class="forest" style="background-image: url({{ asset('public/images/breza.jpg') }})"></div>
         </div>
 
-        <p class="p-3">Srebrna breza (Betula pendula Roth) i maljava breza (Betula pubescens Ehrh.) su kratkotrajne
-            (životni vek je
-            uglavnom od 90 do 100 godina), relativno male lišćarske vrste koje se javljaju u većem delu Evrope sve do
-            centralnog Sibira [<a href="#refs">4</a>]. Srebrna breza je drvo koje dostiže visinu od 30 m, a maljava breza retko prelazi
-            visinu od 20 m. Iz razloga što može da toleriše širok spektar prirodnih uslova, a pre svega siromašna tla,
-            breza se često koristi za obnavljanje i poboljšanje tla, tako da se druge vrste drveća mogu posaditi
-            kasnije. Srebrna breza se koristi za pravljenje skupog furnira i ukrasnih proizvoda od drveta, dok se
-            maljava breza koristi za proizvodnju celuloze i jeftinog ogrevnog drveta. Breze rastu u planinskim
-            područjima, te su veom bitne u stabilizaciji tla i sprečavanju erozije zemljišta. [<a href="#refs">5</a>]</p>
+        {% if app.request.attributes.get('_locale') | default(default_locale) == 'en' %}
+            <p class="p-3">
+                Silver birch (Betula pendula Roth) and European birch (Betula pubescens Ehrh.) are short
+                lived (life span is generally 90 to 100 years), relatively small hardwood species that occur
+                throughout much of Europe as far as central Siberia [<a href="#refs">4</a>]. Silver birch is a tree that reaches a
+                height of 30 m, and a European birch rarely exceeds a height of 20 m. Because it can
+                tolerate a wide range of natural conditions, and especially poor soil, birch is often used to
+                restore and improve the soil, so that other tree species can be planted later. Silver birch is
+                used to make expensive veneers and decorative wood products, while European birch is
+                used to produce pulp and cheap firewood. Birches grow in mountainous areas and are very
+                important in stabilizing the soil and preventing soil erosion. [<a href="#refs">5</a>]
+            </p>
+        {% else %}
+            <p class="p-3">Srebrna breza (Betula pendula Roth) i maljava breza (Betula pubescens Ehrh.) su kratkotrajne
+                (životni vek je
+                uglavnom od 90 do 100 godina), relativno male lišćarske vrste koje se javljaju u većem delu Evrope sve do
+                centralnog Sibira [<a href="#refs">4</a>]. Srebrna breza je drvo koje dostiže visinu od 30 m, a maljava breza retko prelazi
+                visinu od 20 m. Iz razloga što može da toleriše širok spektar prirodnih uslova, a pre svega siromašna tla,
+                breza se često koristi za obnavljanje i poboljšanje tla, tako da se druge vrste drveća mogu posaditi
+                kasnije. Srebrna breza se koristi za pravljenje skupog furnira i ukrasnih proizvoda od drveta, dok se
+                maljava breza koristi za proizvodnju celuloze i jeftinog ogrevnog drveta. Breze rastu u planinskim
+                područjima, te su veom bitne u stabilizaciji tla i sprečavanju erozije zemljišta. [<a href="#refs">5</a>]</p>
+        {% endif %}
 
-        <h2 class="p-3">Hrast kitnjak</h2>
+        <h2 class="p-3">{{"tree.querqus"|trans}}</h2>
 
         <div class="row bg-light">
             <div class="forest" style="background-image: url({{ asset('public/images/hrast.jpg') }})"></div>
         </div>
 
-        <p class="p-3">Hrast kitnjak (Quercus petraea) je vrsta koja se sreće širom Evrope, od Skandinavije do
-            Iberijskog,
-            Apeninskog i Balkanskog poluostrva. Voli svetlost, plodnu i često stenovitu podlogu. Raste uglavnom na
-            padinama i vrhovima brda. Odgovara im i velika količina svetlosti. Veoma retko se sreću čiste šume hrasta u
-            prirodnim uslovima, uglavnom čini mešovite šume sa grabom (Carpinus betulus), javorom (Acer campestre, Acer
-            platanoides) i dr. Sve veća potražnja za ovim drvetom i smanjenje prirodnih šuma, podstakli su razvoj
-            savremenog uzgoja. Hrast kitnjak se koristi kao kvalitetno ogrevno drvo, drvo za gradnju i nameštaj. Takođe
-            se od hrastovine prave veoma kvalitetna burad za vino i alkohol, a kroz istoriju se koristilo za izgradnju
-            brodova. [<a href="#refs">6</a>]
-        </p>
+        {% if app.request.attributes.get('_locale') | default(default_locale) == 'en' %}
+            <p class="p-3">
+                Sessile oak (Quercus petraea) is a species found throughout Europe, from Scandinavia to the
+                Iberian, Apennine and Balkan Peninsula. It loves light, fertile and often rocky backing. It
+                grows mainly on the slopes and on top of hills. A large amount of light also suits them. Pure
+                oak forests are very rarely encountered in nature, otherwise they are mainly consisted of
+                mixed forests with hornbeam (Carpinus betulus), maple (Acer campestre, Acer platanoides)
+                and others. The increasing demand for these trees and the decline of natural forests have
+                stimulated the development of modern cultivation. Sessile oak is used as a quality firewood,
+                wood for construction and furniture. Oakwood is used to make high quality wine and
+                alcohol barrels, and throughout history have been used to build ships. [<a href="#refs">6</a>]
+            </p>
+        {% else %}
+            <p class="p-3">Hrast kitnjak (Quercus petraea) je vrsta koja se sreće širom Evrope, od Skandinavije do
+                Iberijskog,
+                Apeninskog i Balkanskog poluostrva. Voli svetlost, plodnu i često stenovitu podlogu. Raste uglavnom na
+                padinama i vrhovima brda. Odgovara im i velika količina svetlosti. Veoma retko se sreću čiste šume hrasta u
+                prirodnim uslovima, uglavnom čini mešovite šume sa grabom (Carpinus betulus), javorom (Acer campestre, Acer
+                platanoides) i dr. Sve veća potražnja za ovim drvetom i smanjenje prirodnih šuma, podstakli su razvoj
+                savremenog uzgoja. Hrast kitnjak se koristi kao kvalitetno ogrevno drvo, drvo za gradnju i nameštaj. Takođe
+                se od hrastovine prave veoma kvalitetna burad za vino i alkohol, a kroz istoriju se koristilo za izgradnju
+                brodova. [<a href="#refs">6</a>]
+            </p>
+        {% endif %}
 
         <section class="p-3" id="refs">
-            <h4>Izvor:</h4>
+            <h4>{{ "source"|trans }}:</h4>
             <div class="ml-3 overflow-hidden">
                 <p>[1] Šarac Zorica, Doktorska disertacija (2014), UTVRĐIVANJE VARIJABILNOSTI I DIFERENCIJACIJE
                     PRIRODNIH

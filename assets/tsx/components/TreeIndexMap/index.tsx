@@ -1,16 +1,17 @@
 import * as React from "react";
-import {getStyle} from "./styles";
+import { getStyle } from "./styles";
 import styled from "styled-components";
-import {getCategory, IndexMode} from "./IndexMode";
-import {TreeMode} from "./TreeMode";
-import {TreeService} from "../../model/TreeService";
-import {Modal} from "./Modal";
+import IndexMode, { getCategory } from "./IndexMode";
+import TreeMode from "./TreeMode";
+import { TreeService } from "../../model/TreeService";
+import { Modal } from "./Modal";
 import * as globalMercator from "global-mercator";
 import {elasticSearch, index} from "../../config";
 import {SideBarToggleButton} from "./SideBarToggleButton";
 import {GeoQuery} from "../../service/GeoQuery/GeoQuery";
 import {TileRenderManager} from "../../service/GeoQuery/Service/TileRenderManager";
 import {Query} from "../../service/GeoQuery/Model/Query";
+import { I18n } from "react-polyglot";
 
 declare var google: any;
 
@@ -36,9 +37,10 @@ interface TreeIndexMapStateInterface {
     loading: boolean;
     progress: number;
     sideBarVisible: boolean;
+    messages: any;
 }
 
-const mapCenter = {lat: 44.787197, lng: 20.457273};
+const mapCenter = { lat: 44.787197, lng: 20.457273 };
 
 export class TreeIndexMap extends React.Component<any, TreeIndexMapStateInterface> {
 
@@ -52,6 +54,8 @@ export class TreeIndexMap extends React.Component<any, TreeIndexMapStateInterfac
     private trees: any = [];
 
     public state: any;
+
+    public tiles: any = {};
 
     private geoQuery: GeoQuery;
 
@@ -71,6 +75,7 @@ export class TreeIndexMap extends React.Component<any, TreeIndexMapStateInterfac
             markerLocation: mapCenter,
             progress: 0,
             sideBarVisible: true,
+            messages: null
         };
     }
 
@@ -92,6 +97,8 @@ export class TreeIndexMap extends React.Component<any, TreeIndexMapStateInterfac
     };
 
     componentDidMount = () => {
+        this.getMessages().then(data => this.setState({ messages: data }));
+
         this.map = new google.maps.Map(this.mapElement.current, {
             mapTypeControl: true,
             streetViewControl: false,
@@ -127,6 +134,13 @@ export class TreeIndexMap extends React.Component<any, TreeIndexMapStateInterfac
                 });
             }
         });
+    };
+
+    getMessages = async () => {
+        const globals: any = window["globals"];
+        const response = await fetch(globals.baseUrl + `/translations/messages.${this.props.locale}.json`);
+
+        return await response.json();
     };
 
     getIndex(feature) {
@@ -226,7 +240,7 @@ export class TreeIndexMap extends React.Component<any, TreeIndexMapStateInterfac
     };
 
     onModeChange = mode => {
-        this.setState({mode: mode});
+        this.setState({ mode: mode });
 
         if (mode === TreeIndexMap.MODE_TREE) {
             this.clearRenderedTiles();
@@ -251,7 +265,7 @@ export class TreeIndexMap extends React.Component<any, TreeIndexMapStateInterfac
                     });
 
                     marker.addListener("click", () => {
-                        const {type} = marker.data;
+                        const { type } = marker.data;
                         let content = "";
 
                         let typeString = "Nepoznata";
@@ -336,7 +350,8 @@ export class TreeIndexMap extends React.Component<any, TreeIndexMapStateInterfac
 
     render = () => {
         const globals: any = window["globals"];
-        const {sideBarVisible} = this.state;
+        const {progress, sideBarVisible, messages} = this.state;
+        const { locale } = this.props
 
         return (
             <>
@@ -348,22 +363,29 @@ export class TreeIndexMap extends React.Component<any, TreeIndexMapStateInterfac
                     <img className={"mx-auto d-block"} width={90}
                          src={globals.baseUrl + "/public/images/spinner.apng"} alt="Spinner"/>
                 </Modal>}
-                <div className={"d-flex"} style={{maxHeight: "calc(100vh - 56px)"}}>
+                <div className={"d-flex"} style={{ maxHeight: "calc(100vh - 56px)" }}>
                     {sideBarVisible && <SideNavigation className={"bg-light p-3"}>
                         <div className={"mb-1"}>
                             <button className={this.getButtonClass(TreeIndexMap.MODE_INDEX)}
-                                    onClick={() => this.onModeChange(TreeIndexMap.MODE_INDEX)}>Gde pošumiti?
+                                    onClick={() => this.onModeChange(TreeIndexMap.MODE_INDEX)}>{locale === 'en' ? 'Where to plant?' : 'Gde pošumiti?'}
                             </button>
                             <button className={this.getButtonClass(TreeIndexMap.MODE_TREE)}
-                                    onClick={() => this.onModeChange(TreeIndexMap.MODE_TREE)}>Zasadite drvo
+                                    onClick={() => this.onModeChange(TreeIndexMap.MODE_TREE)}>{locale === 'en' ? 'Plant a tree' : 'Zasadite drvo'}
                             </button>
                         </div>
-                        {this.state.mode === TreeIndexMap.MODE_INDEX && <IndexMode value={this.state.indexValue}
-                                                                                   dataSource={this.state.dataSource}
-                                                                                   onDataSourceChange={this.onDataSourceChange}
-                        />}
-                        {this.state.mode === TreeIndexMap.MODE_TREE &&
-                        <TreeMode location={this.state.markerLocation}/>}
+                        {this.state.mode === TreeIndexMap.MODE_INDEX && this.state.messages !== null &&
+                        <I18n locale={this.props.locale} messages={messages}>
+                            <IndexMode value={this.state.indexValue}
+                                       dataSource={this.state.dataSource}
+                                       onDataSourceChange={this.onDataSourceChange}
+                            />
+                        </I18n>
+                        }
+                        {this.state.mode === TreeIndexMap.MODE_TREE && this.state.messages !== null &&
+                        <I18n locale={this.props.locale} messages={messages}>
+                            <TreeMode location={this.state.markerLocation}/>
+                        </I18n>
+                        }
                     </SideNavigation>}
                     <div ref={this.mapElement} className="map-container" style={mapElementStyle}/>
                 </div>

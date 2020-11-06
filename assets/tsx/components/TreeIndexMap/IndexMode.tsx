@@ -1,5 +1,6 @@
 import * as React from "react";
 import styled from "styled-components";
+import { translate } from 'react-polyglot'
 
 const Title = styled.span`
     font-size: 14px;
@@ -35,6 +36,7 @@ interface IndexModePropsInterface {
     value: number;
     dataSource: string;
     onDataSourceChange: Function;
+    t: any;
 }
 
 interface IndexModeStateInterface {
@@ -46,31 +48,31 @@ const maxIndex = 19;
 const categories = [
     {
         color: '#C6C6C6',
-        title: 'Nedostaju Podaci',
+        title: 'Insufficent data',
     },
     {
         color: '#67B600',
-        title: '1. Klasa',
+        title: '1. Class',
     },
     {
         color: '#86EC00',
-        title: '2. Klasa',
+        title: '2. Class',
     },
     {
         color: '#FFF058',
-        title: '3. Klasa',
+        title: '3. Class',
     },
     {
         color: '#FFB816',
-        title: '4. Klasa',
+        title: '4. Class',
     },
     {
         color: '#FF4316',
-        title: 'Postojeća šuma',
+        title: 'Existing forest',
     },
     {
         color: '#FF4316',
-        title: 'Zaštićena prirodna dobra',
+        title: 'Protected natural area',
     }
 ];
 
@@ -85,7 +87,7 @@ export const getCategory = (index) => {
     return categories[index] || categories[0];
 };
 
-export class IndexMode extends React.Component<IndexModePropsInterface, IndexModeStateInterface> {
+class IndexMode extends React.Component<IndexModePropsInterface, IndexModeStateInterface> {
 
     public static NAMESPACE = 'sumeiklima';
     public static DATA_BETULA_PENDULA = IndexMode.NAMESPACE + '/betula-pendula';
@@ -109,41 +111,42 @@ export class IndexMode extends React.Component<IndexModePropsInterface, IndexMod
     render = () => {
         const globals: any = window["globals"];
         const category = getCategory(this.props.value);
+        const { t } = this.props;
 
         return <div className={'d-flex flex-column flex-grow-1'}>
             <div className="d-none d-lg-flex alert alert-warning" style={{alignItems: 'center'}}>
                 <i style={{fontSize: 40}} className="fa fa-hand-pointer-o pr-3" aria-hidden="true"/>
-                <span style={{fontSize: 14}}>Pomeranjem kursora po mapi pogledajte koliko je određena lokacija povoljna za sadnju drveća.</span>
+                <span style={{fontSize: 14}}>{ t('index-info') }</span>
             </div>
             <div className="flex-grow-1 mb-2">
                 <Circle background={category.color}/>
-                <p className={'text-center'}>{category.title}</p>
+                <p className={'text-center'}>{ t(category.title) }</p>
             </div>
             <div>
-                <strong className="text-center d-block mb-2">Legenda</strong>
+                <strong className="text-center d-block mb-2">{ t('legend') }</strong>
                 <div className={'d-flex justify-content-center'}>
                     {[categories[1], categories[2], categories[3], categories[4]].map((category, index) =>
                         <LegendItem key={index}>
                         <LegendCircle background={category.color}/>
-                        <p className={'text-muted text-center'}>{category.title}</p>
+                        <p className={'text-muted text-center'}>{ t(category.title) }</p>
                     </LegendItem>)}
                 </div>
                 <div className={'d-flex justify-content-center'}>
                     {[categories[0], categories[5], categories[6]].map((category, index) => <LegendItem key={index}>
                         <LegendCircle background={category.color} />
-                        <p className={'text-muted text-center'}>{category.title}</p>
+                        <p className={'text-muted text-center'}>{ t(category.title) }</p>
                     </LegendItem>)}
                 </div>
             </div>
             <div>
-                <strong className="text-center d-block mb-2">Izbor vrste</strong>
+                <strong className="text-center d-block mb-2">{ t('select-type')}</strong>
                 <div className="d-flex">
                     <button className={this.getButtonClass(IndexMode.DATA_PINUS_NIGRA)}
                             onClick={() => this.props.onDataSourceChange(IndexMode.DATA_PINUS_NIGRA)}
                             data-source="pinus-nigra">
                         <img width="100%" className="mb-2" src={globals.baseUrl + "/public/images/pinus_nigra.svg"}
                              alt={"Pinus nigra"}/>
-                        <Title>Crni bor</Title>
+                        <Title>{t('Pinus nigra')}</Title>
                         <LatinTitle>Pinus nigra</LatinTitle>
                     </button>
                     <button className={this.getButtonClass(IndexMode.DATA_QUERCUS_PATRAEA)}
@@ -151,7 +154,7 @@ export class IndexMode extends React.Component<IndexModePropsInterface, IndexMod
                             data-source="quercus-petraea">
                         <img width="100%" className="mb-2"
                              src={globals.baseUrl + "/public/images/quercus_petraea.svg"} alt={"Quercus petraea"}/>
-                        <Title>Hrast kitnjak</Title>
+                        <Title>{t('Quercus petraea')}</Title>
                         <LatinTitle>Quercus petraea</LatinTitle>
                     </button>
                     <button className={this.getButtonClass(IndexMode.DATA_BETULA_PENDULA)}
@@ -159,7 +162,7 @@ export class IndexMode extends React.Component<IndexModePropsInterface, IndexMod
                             data-source="betula-pendula">
                         <img width="100%" className="mb-2" src={globals.baseUrl + "/public/images/betula_pendula.svg"}
                              alt={"Betula pendula"}/>
-                        <Title>Breza</Title>
+                        <Title>{t('Betula pendula')}</Title>
                         <LatinTitle>Betula pendula</LatinTitle>
                     </button>
                 </div>
@@ -167,3 +170,5 @@ export class IndexMode extends React.Component<IndexModePropsInterface, IndexMod
         </div>;
     }
 }
+
+export default translate()(IndexMode);

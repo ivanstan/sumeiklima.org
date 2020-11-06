@@ -2,7 +2,7 @@
 <html lang="{{ app.request.locale }}">
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}{{ app_name }}{% endblock %}</title>
+        <title>{% block title %}{{ "app_title"|trans }}{% endblock %}</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         {% block stylesheets %}{% endblock %}
         <link href="https://fonts.googleapis.com/css?family=Quicksand&display=swap" rel="stylesheet">

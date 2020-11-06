@@ -6,22 +6,28 @@ security_logout:
   path: /logout
 
 app_uloga_suma:
-  path:         /uloga-suma
+  path:         /{_locale}/uloga-suma
   controller:   Symfony\Bundle\FrameworkBundle\Controller\TemplateController
   defaults:
     template: pages/content/uloga-sume.html.twig
   methods: GET
+  requirements:
+    _locale: en|sr|  # put a pipe "|" last
 
 app_vrste_drveca:
-  path:         /vrste-drveca
+  path:         /{_locale}/vrste-drveca
   controller:   Symfony\Bundle\FrameworkBundle\Controller\TemplateController
   defaults:
     template: pages/content/vrste-drveca.html.twig
   methods: GET
+  requirements:
+    _locale: en|sr|  # put a pipe "|" last
 
 app_projekat:
-  path:         /o-projektu
+  path:         /{_locale}/o-projektu
   controller:   Symfony\Bundle\FrameworkBundle\Controller\TemplateController
   defaults:
     template: pages/content/projekat.html.twig
   methods: GET
+  requirements:
+    _locale: en|sr|  # put a pipe "|" last
