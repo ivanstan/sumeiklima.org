@@ -2,9 +2,11 @@ import * as React from 'react';
 import * as serialize from 'form-serialize';
 import Async from 'react-select/async-creatable';
 import {TreeService} from "../../model/TreeService";
+import { translate } from 'react-polyglot'
 
 interface TreeModePropsInterface {
     location: any
+    t: any;
 }
 
 interface TreeModeStateInterface {
@@ -15,7 +17,7 @@ interface TreeModeStateInterface {
     errorMessage: string;
 }
 
-export class TreeMode extends React.Component<TreeModePropsInterface, TreeModeStateInterface> {
+class TreeMode extends React.Component<TreeModePropsInterface, TreeModeStateInterface> {
 
     private readonly form: any;
 
@@ -119,10 +121,12 @@ export class TreeMode extends React.Component<TreeModePropsInterface, TreeModeSt
     };
 
     render = () => {
+        const { t } = this.props;
+
         return <div className={'d-flex flex-column'}>
             <div className="alert alert-warning d-flex" style={{alignItems: 'center'}}>
                 <i style={{fontSize: 40}} className="fa fa-map-marker pr-3" aria-hidden="true"/>
-                <span style={{fontSize: 14}}>Korišćenjem markera na mapi odaberite lokaciju na kojoj ste zasadili drvo.</span>
+                <span style={{fontSize: 14}}>{ t('tree-info') }</span>
             </div>
 
             {this.state.errorMessage &&
@@ -141,7 +145,7 @@ export class TreeMode extends React.Component<TreeModePropsInterface, TreeModeSt
                 <input type="hidden" name="latitude" value={this.props.location.lat}/>
                 <input type="hidden" name="longitude" value={this.props.location.lng}/>
                 <input type="hidden" name="type" value={JSON.stringify(this.state.type)}/>
-                <input type="email" name="email" placeholder="I-mejl" value={this.state.email} className="form-control mb-1"
+                <input type="email" name="email" placeholder={t('Email')} value={this.state.email} className="form-control mb-1"
                     onChange={event => this.setState({email: event.target.value})}
                 />
                 <Async
@@ -162,21 +166,23 @@ export class TreeMode extends React.Component<TreeModePropsInterface, TreeModeSt
                     formatCreateLabel={(inputValue) => 'Kreirajte vrstu ' + inputValue}
                     loadOptions={(inputValue, callback) => this.loadOptions(inputValue, callback, '')}
                     defaultOptions
-                    placeholder={'Vrsta'}
+                    placeholder={t('Type')}
                     value={this.state.type}
                     noOptionsMessage={() => 'Nema rezultata'}
                     loadingMessage={() => 'Pretraživanje'}
                     onChange={option => this.setState({type: option})}
                     formatOptionLabel={option => <span>{option.serbian} <i>{option.latin}</i></span>}
                 />
-                <input type="number" name="age" placeholder="Starost sadnice (godina)" min="0" className="form-control mb-1"/>
+                <input type="number" name="age" placeholder={t('Age')} min="0" className="form-control mb-1"/>
                 <div className="custom-file mb-1">
                     <input type="file" name="file" className="custom-file-input" id="custom-file"
                            onChange={this.handleFileSelect}/>
-                    <label className="custom-file-label" htmlFor="custom-file">Fotografija</label>
+                    <label className="custom-file-label" htmlFor="custom-file">{t('Photo')}</label>
                 </div>
-                <button className="btn-primary btn mx-auto d-block w-100" onClick={this.onSubmit}>Pošalji</button>
+                <button className="btn-primary btn mx-auto d-block w-100" onClick={this.onSubmit}>{t('Send')}</button>
             </form>
         </div>
     }
 }
+
+export default translate()(TreeMode);

@@ -1,0 +1,21 @@
+{
+  "Pinus nigra": "Crni bor",
+  "Quercus petraea": "Hrast kitnjak",
+  "Betula pendula": "Breza",
+  "index-info": "Pomeranjem kursora po mapi pogledajte koliko je određena lokacija povoljna za sadnju drveća.",
+  "tree-info": "Korišćenjem markera na mapi odaberite lokaciju na kojoj ste zasadili drvo.",
+  "legend": "Legenda",
+  "select-type": "Izbor vrste",
+  "Age": "Starost sadnice (godina)",
+  "Photo": "Fotografija",
+  "Send": "Pošalji",
+  "Email": "Imejl",
+  "Type": "Vrsta",
+  "Insufficent data": "Nedostaju Podaci",
+  "1. Class": "1. Klasa",
+  "2. Class": "2. Klasa",
+  "3. Class": "3. Klasa",
+  "4. Class": "4. Klasa",
+  "Existing forest": "Postojeća šuma",
+  "Protected natural area": "Zaštićena prirodna dobra"
+}

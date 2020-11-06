@@ -1,0 +1,9 @@
+{
+  "Pinus nigra": "Black pine",
+  "Quercus petraea": "Sessile oak",
+  "Betula pendula": "Silver birch",
+  "index-info": "Move the cursor around the map to see how favorable a particular location is for planting trees.",
+  "tree-info": "Using a marker on the map, select the location where you planted the tree.",
+  "legend": "Legend",
+  "select-type": "Choice of type"
+}
