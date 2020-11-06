@@ -11,6 +11,8 @@ parameters:
   app_name: 'Šume i Klima'
   primary_color: '007bff'
   avatar_background: 'fff'
+  elasticsearch_url: '%env(resolve:ELASTICSEARCH_URL)%'
+  elasticsearch_index: '%env(resolve:ELASTICSEARCH_INDEX)%'
 
 services:
   # default configuration for services in *this* file

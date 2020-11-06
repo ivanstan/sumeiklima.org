@@ -6,7 +6,6 @@ import TreeMode from "./TreeMode";
 import { TreeService } from "../../model/TreeService";
 import { Modal } from "./Modal";
 import * as globalMercator from "global-mercator";
-import {elasticSearch, index} from "../../config";
 import {SideBarToggleButton} from "./SideBarToggleButton";
 import {GeoQuery} from "../../service/GeoQuery/GeoQuery";
 import {TileRenderManager} from "../../service/GeoQuery/Service/TileRenderManager";
@@ -66,7 +65,7 @@ export class TreeIndexMap extends React.Component<any, TreeIndexMapStateInterfac
 
         this.renderManager = new TileRenderManager();
         this.mapElement = React.createRef();
-        this.geoQuery = new GeoQuery(elasticSearch, index);
+        this.geoQuery = new GeoQuery('api/geojson');
 
         this.state = {
             loading: false,

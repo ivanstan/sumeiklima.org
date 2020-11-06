@@ -4,19 +4,17 @@ import {Tile} from "./Model/Tile";
 
 export class GeoQuery {
     private readonly url: string;
-    private readonly name: string;
 
     // ToDo: add tile caching
 
-    constructor(url: string, name: string) {
+    constructor(url: string) {
         this.url = url;
-        this.name = name;
     }
 
     public async getTiles(query: Query): Promise<GeoJsonTile[]> {
         return await this.request({
             bool: {
-                // should: GeoQuery.getTileCollectionQuery(query.tiles),
+                should: GeoQuery.getTileCollectionQuery(query.tiles),
                 must: {
                     ...GeoQuery.getCondition("namespace", query.namespace),
                 }
@@ -26,7 +24,7 @@ export class GeoQuery {
 
     private async request(query: any): Promise<GeoJsonTile[]> {
         // @ts-ignore
-        let response = await fetch(this.url + '/' + this.name + '/_search', {
+        let response = await fetch(this.url, {
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
