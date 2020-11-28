@@ -20,12 +20,6 @@ class IndexController extends AbstractController
 {
     use FileSystemAwareTrait;
 
-    private const DOWNLOAD = [
-        'betula-pendula',
-        'quercus-petraea',
-        'pinus-nigra',
-    ];
-
     /**
      * @Route("/", name="app_index")
      */
@@ -39,27 +33,6 @@ class IndexController extends AbstractController
         }
 
         return $this->render('pages/index/index.html.twig');
-    }
-
-    /**
-     * @Route("/download/{file}", name="app_data_download")
-     */
-    public function download(string $file, FileManager $manager): Response
-    {
-        $filename = $manager->getPublicFolder()."/data/$file.json";
-
-        if (in_array($file, self::DOWNLOAD, false) && file_exists($filename)) {
-            $response = new BinaryFileResponse($filename);
-
-            $response->setContentDisposition(
-                ResponseHeaderBag::DISPOSITION_ATTACHMENT,
-                $file.'.json'
-            );
-
-            return $response;
-        }
-
-        throw new BadRequestHttpException(\sprintf("Invalid file name %s", $file));
     }
 
     /**

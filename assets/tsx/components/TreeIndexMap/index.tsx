@@ -1,10 +1,9 @@
 import * as React from "react";
 import { getStyle } from "./styles";
 import styled from "styled-components";
-import IndexMode, { getCategory } from "./IndexMode";
+import IndexMode from "./IndexMode";
 import TreeMode from "./TreeMode";
 import { TreeService } from "../../model/TreeService";
-import { Modal } from "./Modal";
 import * as globalMercator from "global-mercator";
 import { geoJsonServer } from "../../config";
 import { SideBarToggleButton } from "./SideBarToggleButton";
@@ -51,7 +50,6 @@ export class TreeIndexMap extends React.Component<any, TreeIndexMapStateInterfac
     private trees: any = [];
 
     public state: any = {
-        loading: false,
         mode: TreeIndexMap.MODE_INDEX,
         dataSource: IndexMode.DATA_PINUS_NIGRA,
         markerLocation: mapCenter,
@@ -68,6 +66,39 @@ export class TreeIndexMap extends React.Component<any, TreeIndexMapStateInterfac
         this.mapElement = React.createRef();
     }
 
+    mapMinZoom = 1;
+    mapMaxZoom = 14;
+
+    mapBounds = new google.maps.LatLngBounds(
+        new google.maps.LatLng(41.787740, 18.816127),
+        new google.maps.LatLng(46.188934, 23.006101));
+
+    maptiler =  new google.maps.ImageMapType({
+        getTileUrl: (coord, zoom) => {
+            var dataSource = this.state.dataSource;
+            var proj = this.map.getProjection();
+            var z2 = Math.pow(2, zoom);
+            var tileXSize = 256 / z2;
+            var tileYSize = 256 / z2;
+            var tileBounds = new google.maps.LatLngBounds(
+                proj.fromPointToLatLng(new google.maps.Point(coord.x * tileXSize, (coord.y + 1) * tileYSize)),
+                proj.fromPointToLatLng(new google.maps.Point((coord.x + 1) * tileXSize, coord.y * tileYSize))
+            );
+            var x = coord.x >= 0 ? coord.x : z2 + coord.x
+            var y = coord.y;
+            if (this.mapBounds.intersects(tileBounds) && (this.mapMinZoom <= zoom) && (zoom <= this.mapMaxZoom))
+                return 'https://static.spacehub.rs/forest-and-climate/maptiles/' + dataSource + '/' + zoom + "/" + x + "/" + y + ".png";
+            else
+                return "https://www.maptiler.com/img/none.png";
+        },
+        tileSize: new google.maps.Size(256, 256),
+        isPng: true,
+        name: "Rendered with MapTiler Desktop <https://www.maptiler.com/desktop/>",
+        alt: "Rendered with MapTiler Desktop",
+
+        opacity: .5
+    });
+
     componentDidMount = () => {
         this.getMessages().then(data => this.setState({ messages: data }));
 
@@ -76,50 +107,15 @@ export class TreeIndexMap extends React.Component<any, TreeIndexMapStateInterfac
             streetViewControl: false,
             rotateControl: false,
             fullscreenControl: false,
-            zoom: 11,
+            zoom: 10,
             center: mapCenter,
             styles: getStyle(),
-            minZoom: 10,
             zoomControlOptions: {
                 position: google.maps.ControlPosition.RIGHT_TOP
             },
         });
 
-        google.maps.event.addListener(this.map, "idle", () => {
-            if (this.state.mode === TreeIndexMap.MODE_INDEX) {
-                this.loadData();
-            }
-        });
-
-        google.maps.event.addListener(this.map, "zoom_changed", () => {
-            this.clearData();
-        });
-
-        this.map.data.setStyle((feature) => {
-            const id = feature.getProperty("DN");
-            const category = getCategory(id);
-
-            return {
-                fillColor: category.color,
-                strokeWeight: 0
-            }
-        });
-
-        this.map.data.addListener("mouseover", (event) => {
-            let id = null;
-
-            for (let i in event.feature) {
-                if (event.feature[i] && typeof event.feature[i] === "object" && event.feature[i].hasOwnProperty("DN")) {
-                    id = event.feature[i].DN;
-                }
-            }
-
-            if (id !== null) {
-                this.setState({
-                    indexValue: id,
-                });
-            }
-        });
+        this.loadData();
     };
 
     getMessages = async () => {
@@ -130,14 +126,8 @@ export class TreeIndexMap extends React.Component<any, TreeIndexMapStateInterfac
     };
 
     loadData = () => {
-        const tiles = this.getTiles();
-
-
-        tiles.forEach((tile) => {
-            let [x, y, z] = tile;
-
-            this.loadTile(x, y, z);
-        });
+        this.map.overlayMapTypes.removeAt(0);
+        this.map.overlayMapTypes.insertAt(0, this.maptiler);
     };
 
     getTiles = () => {
@@ -229,7 +219,7 @@ export class TreeIndexMap extends React.Component<any, TreeIndexMapStateInterfac
         this.setState({
             dataSource: dataSource
         });
-        this.clearData();
+
         this.loadData();
     };
 
@@ -344,19 +334,11 @@ export class TreeIndexMap extends React.Component<any, TreeIndexMapStateInterfac
 
     render = () => {
         const globals: any = window["globals"];
-        const { messages, progress, sideBarVisible } = this.state;
+        const { messages, sideBarVisible } = this.state;
         const { locale } = this.props
 
         return (
             <>
-                {this.state.loading && <Modal>
-                    {/*<div className="progress">*/}
-                    {/*  <div className="progress-bar" role="progressbar" style={{width: `${progress}%`, background: "#59ba52"}} />*/}
-                    {/*</div>*/}
-                    <p className="text-center mt-3 h3" style={{ color: "#59ba52" }}>Učitavanje</p>
-                    <img className={"mx-auto d-block"} width={90}
-                         src={globals.baseUrl + "/public/images/spinner.apng"}/>
-                </Modal>}
                 <div className={"d-flex"} style={{ maxHeight: "calc(100vh - 56px)" }}>
                     {sideBarVisible && <SideNavigation className={"bg-light p-3"}>
                         <div className={"mb-1"}>
