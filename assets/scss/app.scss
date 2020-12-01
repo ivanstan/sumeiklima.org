@@ -1,7 +1,6 @@
 @import "./variables";
 @import "~bootstrap/scss/bootstrap";
 @import "./_front";
-@import "./progress";
 
 html {
   height: 100vh;
@@ -73,4 +72,3 @@ a {
   max-width: 467px;
   padding: 0 100px 0 148px;
 }
-

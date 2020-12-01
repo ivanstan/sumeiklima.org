@@ -4,8 +4,6 @@ import styled from "styled-components";
 import IndexMode from "./IndexMode";
 import TreeMode from "./TreeMode";
 import { TreeService } from "../../model/TreeService";
-import * as globalMercator from "global-mercator";
-import { geoJsonServer } from "../../config";
 import { SideBarToggleButton } from "./SideBarToggleButton";
 import { I18n } from "react-polyglot";
 
@@ -17,8 +15,8 @@ const mapElementStyle = {
 };
 
 const SideNavigation = styled.aside`
-    width: 500px;
-    minHeight: calc(100vh - 56px);
+    min-width: 350px;
+    min-height: calc(100vh - 56px);
     display: flex;
     flex-direction: column;
     overflow: hidden;
@@ -67,7 +65,7 @@ export class TreeIndexMap extends React.Component<any, TreeIndexMapStateInterfac
     }
 
     mapMinZoom = 1;
-    mapMaxZoom = 14;
+    mapMaxZoom = 13;
 
     mapBounds = new google.maps.LatLngBounds(
         new google.maps.LatLng(41.787740, 18.816127),
@@ -75,21 +73,22 @@ export class TreeIndexMap extends React.Component<any, TreeIndexMapStateInterfac
 
     maptiler =  new google.maps.ImageMapType({
         getTileUrl: (coord, zoom) => {
-            var dataSource = this.state.dataSource;
-            var proj = this.map.getProjection();
-            var z2 = Math.pow(2, zoom);
-            var tileXSize = 256 / z2;
-            var tileYSize = 256 / z2;
-            var tileBounds = new google.maps.LatLngBounds(
+            const dataSource = this.state.dataSource;
+            const proj = this.map.getProjection();
+            const z2 = Math.pow(2, zoom);
+            const tileXSize = 256 / z2;
+            const tileYSize = 256 / z2;
+            const tileBounds = new google.maps.LatLngBounds(
                 proj.fromPointToLatLng(new google.maps.Point(coord.x * tileXSize, (coord.y + 1) * tileYSize)),
                 proj.fromPointToLatLng(new google.maps.Point((coord.x + 1) * tileXSize, coord.y * tileYSize))
             );
-            var x = coord.x >= 0 ? coord.x : z2 + coord.x
-            var y = coord.y;
-            if (this.mapBounds.intersects(tileBounds) && (this.mapMinZoom <= zoom) && (zoom <= this.mapMaxZoom))
+            const x = coord.x >= 0 ? coord.x : z2 + coord.x;
+            const y = coord.y;
+            if (this.mapBounds.intersects(tileBounds) && (this.mapMinZoom <= zoom) && (zoom <= this.mapMaxZoom)) {
                 return 'https://static.spacehub.rs/forest-and-climate/maptiles/' + dataSource + '/' + zoom + "/" + x + "/" + y + ".png";
-            else
-                return "https://www.maptiler.com/img/none.png";
+            }
+
+            return "https://www.maptiler.com/img/none.png";
         },
         tileSize: new google.maps.Size(256, 256),
         isPng: true,
@@ -108,6 +107,8 @@ export class TreeIndexMap extends React.Component<any, TreeIndexMapStateInterfac
             rotateControl: false,
             fullscreenControl: false,
             zoom: 10,
+            maxZoom: this.mapMaxZoom,
+            minZoom: this.mapMinZoom,
             center: mapCenter,
             styles: getStyle(),
             zoomControlOptions: {
@@ -130,78 +131,6 @@ export class TreeIndexMap extends React.Component<any, TreeIndexMapStateInterfac
         this.map.overlayMapTypes.insertAt(0, this.maptiler);
     };
 
-    getTiles = () => {
-        const bounds = this.map.getBounds(),
-            boundsNeLatLng = bounds.getNorthEast(),
-            boundsSwLatLng = bounds.getSouthWest(),
-            boundsNwLatLng = new google.maps.LatLng(boundsNeLatLng.lat(), boundsSwLatLng.lng()),
-            boundsSeLatLng = new google.maps.LatLng(boundsSwLatLng.lat(), boundsNeLatLng.lng()),
-            zoom = this.map.getZoom();
-        let tiles = [];
-
-        let lng = boundsSwLatLng.lng(),
-            lat = boundsSwLatLng.lat();
-
-        const tile = globalMercator.lngLatToGoogle([lng, lat], zoom);
-        const [minX, minY, maxX, maxY] = globalMercator.googleToBBox(tile);
-        const tileSizeX = maxX - minX;
-        const tileSizeY = maxY - minY;
-
-        const maxLat = boundsNwLatLng.lat();
-
-        while (lat < maxLat) {
-            lng = boundsSwLatLng.lng();
-
-            let row = [];
-            while (lng < boundsSeLatLng.lng()) {
-                const tile = globalMercator.lngLatToGoogle([lng, lat], zoom);
-
-                row.push(tile);
-
-                lng = lng + tileSizeX;
-            }
-
-            tiles = tiles.concat(row);
-
-            lat = lat + tileSizeY;
-        }
-
-        return tiles;
-    };
-
-    loadTile = (x, y, z) => {
-        if (this.isTileLoaded(x, y, z)) {
-            return;
-        }
-
-        const file = this.state.dataSource;
-
-        this.setTile(x, y, z);
-        this.map.data.loadGeoJson(`${geoJsonServer}/${file}/${z}/${x}/${y}.geojson`);
-    };
-
-    clearData = () => {
-        this.map.data.forEach((feature) => {
-            this.map.data.remove(feature);
-        });
-        this.tiles = {};
-    };
-
-    setTile = (x, y, z) => {
-        if (!this.tiles.hasOwnProperty(x)) {
-            this.tiles[x] = {};
-        }
-
-        if (!this.tiles[x].hasOwnProperty(x)) {
-            this.tiles[x][y] = {};
-        }
-
-        this.tiles[x][y][z] = true;
-    };
-
-    isTileLoaded = (x, y, z) => {
-        return this.tiles.hasOwnProperty(x) && this.tiles[x].hasOwnProperty(y) && this.tiles[x][y].hasOwnProperty(z) && this.tiles[x][y][z] === true;
-    };
 
     getButtonClass = (mode: string) => {
         let classes = ["btn", "w-100", "mb-1"];
@@ -227,8 +156,6 @@ export class TreeIndexMap extends React.Component<any, TreeIndexMapStateInterfac
         this.setState({ mode: mode });
 
         if (mode === TreeIndexMap.MODE_TREE) {
-            this.clearData();
-
             const globals: any = window["globals"];
 
             this.setMarker();
@@ -333,7 +260,6 @@ export class TreeIndexMap extends React.Component<any, TreeIndexMapStateInterfac
     };
 
     render = () => {
-        const globals: any = window["globals"];
         const { messages, sideBarVisible } = this.state;
         const { locale } = this.props
 
@@ -341,18 +267,18 @@ export class TreeIndexMap extends React.Component<any, TreeIndexMapStateInterfac
             <>
                 <div className={"d-flex"} style={{ maxHeight: "calc(100vh - 56px)" }}>
                     {sideBarVisible && <SideNavigation className={"bg-light p-3"}>
-                        <div className={"mb-1"}>
-                            <button className={this.getButtonClass(TreeIndexMap.MODE_INDEX)}
-                                    onClick={() => this.onModeChange(TreeIndexMap.MODE_INDEX)}>{locale === 'en' ? 'Where to plant?' : 'Gde pošumiti?'}
-                            </button>
-                            <button className={this.getButtonClass(TreeIndexMap.MODE_TREE)}
-                                    onClick={() => this.onModeChange(TreeIndexMap.MODE_TREE)}>{locale === 'en' ? 'Plant a tree' : 'Zasadite drvo'}
-                            </button>
-                        </div>
+                      <div className={"mb-1 d-flex d-md-block"}>
+                        <button className={this.getButtonClass(TreeIndexMap.MODE_INDEX) + ' mr-1 mr-md-0'}
+                                onClick={() => this.onModeChange(TreeIndexMap.MODE_INDEX)}>{locale === 'en' ? 'Where to plant?' : 'Gde pošumiti?'}
+                        </button>
+                        <button className={this.getButtonClass(TreeIndexMap.MODE_TREE)}
+                                onClick={() => this.onModeChange(TreeIndexMap.MODE_TREE)}>{locale === 'en' ? 'Plant a tree' : 'Zasadite drvo'}
+                        </button>
+                      </div>
                         {this.state.mode === TreeIndexMap.MODE_INDEX && this.state.messages !== null &&
                         <I18n locale={this.props.locale} messages={messages}>
-                            <IndexMode value={this.state.indexValue}
-                                       dataSource={this.state.dataSource}
+                          <IndexMode value={this.state.indexValue}
+                                     dataSource={this.state.dataSource}
                                        onDataSourceChange={this.onDataSourceChange}
                             />
                         </I18n>

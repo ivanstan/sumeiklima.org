@@ -16,6 +16,12 @@ const LegendCircle = styled.div`
     border-radius: 30px;
     margin-right: 20px;
     background: ${props => props.background};
+    
+    @media (max-width: 767.98px) {
+        width: 20px;
+        height: 20px;
+        border-radius: 20px;
+    }
 `;
 
 const LegendItem = styled.div`
@@ -23,6 +29,10 @@ const LegendItem = styled.div`
     padding: 5px;
     display: flex;
     align-items: center;
+    
+    @media (max-width: 767.98px) {
+        padding: 2px;
+    }
 `;
 
 interface IndexModePropsInterface {
@@ -95,23 +105,19 @@ class IndexMode extends React.Component<IndexModePropsInterface, IndexModeStateI
         const { t } = this.props;
 
         return <div className={'d-flex flex-column flex-grow-1'}>
-            <div className="flex-grow-1 mb-2">
-
-            </div>
+            <div className="flex-grow-1 mb-2"/>
             <div>
                 <strong className="text-center d-block mb-2">{t('legend')}</strong>
                 <div className={'d-flex flex-column justify-content-center'}>
                     {categories.map((category, index) =>
                         <LegendItem key={index}>
-                            <LegendCircle background={category.color}/>
+                            <LegendCircle background={category.color} className="legend-circle"/>
                             <p className="mb-0" style={{fontSize: 12}}>{t(category.title)}</p>
                         </LegendItem>)
                     }
                 </div>
             </div>
-            <div className="flex-grow-1 mb-2">
-
-            </div>
+            <div className="flex-grow-1 mb-2"/>
             <div>
                 <strong className="text-center d-block mb-2">{t('select-type')}</strong>
                 <div className="d-flex justify-content-sm-around">
