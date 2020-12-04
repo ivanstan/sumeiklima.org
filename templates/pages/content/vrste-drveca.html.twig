@@ -4,25 +4,29 @@
 
 {% block content %}
     <div class="container pb-5 bg-light py-3 overflow-hidden">
-        <h1 class="p-3">{{"nav.trees"|trans}}</h1>
+        <h1 class="p-3">{{ "nav.trees"|trans }}</h1>
 
-        <h2 class="p-3">{{"tree.pinus"|trans}}</h2>
+        <h2 class="p-3">{{ "tree.pinus"|trans }}</h2>
 
         <div class="row">
-            <div class="forest" style="background-image: url({{ asset('public/images/bor.jpg') }})"></div>
+            <div class="forest" style="background-image: url({{ asset('public/images/trees/pinus_nigra.jpg') }})"></div>
         </div>
 
         {% if app.request.attributes.get('_locale') | default(default_locale) == 'en' %}
             <p class="p-3">
                 Genus Pinus, with more than 110 species described, is the largest recent conifer genus. The
                 natural distribution of the genus is restricted to the northern hemisphere, except for one P.
-                merkusii population located south of the equator at Sumatra [<a href="#refs">1</a>]. Black pine (Pinus nigra) is
-                one of the long-lived conifer species, over 400 years old. [<a href="#refs">2</a>]. Environmental factors
+                merkusii population located south of the equator at Sumatra [<a href="#refs">1</a>]. Black pine (Pinus
+                nigra) is
+                one of the long-lived conifer species, over 400 years old. [<a href="#refs">2</a>]. Environmental
+                factors
                 significantly affect the maximum height of black pine, and in optimal conditions can grow up
-                to 40 meters in height. [<a href="#refs">2</a>]. It can be maintained in extreme slope and bedrock conditions,
+                to 40 meters in height. [<a href="#refs">2</a>]. It can be maintained in extreme slope and bedrock
+                conditions,
                 on often skeletal soil and on almost completely vertical limestone, dolomitic and serpentine
                 cliffs. It is therefore one of the most important species for afforestation of dry and rocky
-                terrains [<a href="#refs">3</a>]. Black pine wood was used in shipbuilding. Black pine is also valued for
+                terrains [<a href="#refs">3</a>]. Black pine wood was used in shipbuilding. Black pine is also valued
+                for
 
                 landscaping, both in parks (isolated trees or in groups), and in urban and industrial contexts
                 due to its tolerance to pollution.
@@ -31,26 +35,32 @@
             <p class="p-3">Rod Pinus, sa više od 110 opisanih vrsta, predstavlja najveći recentni rod četinara. Prirodna
                 distribucija
                 roda ograničena je na severnu hemisferu, izuzev jedne populacije P. merkusii koja se nalazi južno od
-                ekvatora na Sumatri [<a href="#refs">1</a>]. Crni bor (Pinus nigra) je jedan od dugoživećih vrsta četinara, preko 400 godina.
-                [<a href="#refs">2</a>]. Ekološki faktori bitno utiču na maksimalnu visinu crnog bora, a u optimalnim uslovima može da izraste i
-                do 40 metara u visinu. [<a href="#refs">2</a>]. Može da se održi u krajnje ekstremnim uslovima nagiba i podloge, na često
+                ekvatora na Sumatri [<a href="#refs">1</a>]. Crni bor (Pinus nigra) je jedan od dugoživećih vrsta
+                četinara, preko 400 godina.
+                [<a href="#refs">2</a>]. Ekološki faktori bitno utiču na maksimalnu visinu crnog bora, a u optimalnim
+                uslovima može da izraste i
+                do 40 metara u visinu. [<a href="#refs">2</a>]. Može da se održi u krajnje ekstremnim uslovima nagiba i
+                podloge, na često
                 skeletnom zemljištu i na gotovo potpuno okomitim krečnjačkim, dolomitskim i serpentinskim liticama. Zbog
-                toga predstavlja jednu od najvažnijih vrsta za pošumljavanje suvih i kamenitih terena [<a href="#refs">3</a>]. Drvo crnog bora
+                toga predstavlja jednu od najvažnijih vrsta za pošumljavanje suvih i kamenitih terena [<a
+                        href="#refs">3</a>]. Drvo crnog bora
                 se koristilo u brodogradnji. Crni bor je cenjen i za uređenje, kako u parkovima (izolovano drveće ili u
                 grupama), tako i u urbanom i industrijskom kontekstu zbog tolerancije na zagađenje.</p>
         {% endif %}
 
-        <h2 class="p-3">{{"tree.betula"|trans}}</h2>
+        <h2 class="p-3">{{ "tree.betula"|trans }}</h2>
 
         <div class="row bg-light">
-            <div class="forest" style="background-image: url({{ asset('public/images/breza.jpg') }})"></div>
+            <div class="forest"
+                 style="background-image: url({{ asset('public/images/trees/betula_pendula.jpg') }})"></div>
         </div>
 
         {% if app.request.attributes.get('_locale') | default(default_locale) == 'en' %}
             <p class="p-3">
-                Silver birch (Betula pendula Roth) and European birch (Betula pubescens Ehrh.) are short
+                Silver birch (<i>Betula pendula Roth</i>) and European birch (<i>Betula pubescens Ehrh.</i>) are short
                 lived (life span is generally 90 to 100 years), relatively small hardwood species that occur
-                throughout much of Europe as far as central Siberia [<a href="#refs">4</a>]. Silver birch is a tree that reaches a
+                throughout much of Europe as far as central Siberia [<a href="#refs">4</a>]. Silver birch is a tree that
+                reaches a
                 height of 30 m, and a European birch rarely exceeds a height of 20 m. Because it can
                 tolerate a wide range of natural conditions, and especially poor soil, birch is often used to
                 restore and improve the soil, so that other tree species can be planted later. Silver birch is
@@ -59,26 +69,32 @@
                 important in stabilizing the soil and preventing soil erosion. [<a href="#refs">5</a>]
             </p>
         {% else %}
-            <p class="p-3">Srebrna breza (Betula pendula Roth) i maljava breza (Betula pubescens Ehrh.) su kratkotrajne
+            <p class="p-3">Srebrna breza (<i>Betula pendula Roth</i>) i maljava breza (<i>Betula pubescens Ehrh.</i>) su
+                kratkotrajne
                 (životni vek je
-                uglavnom od 90 do 100 godina), relativno male lišćarske vrste koje se javljaju u većem delu Evrope sve do
-                centralnog Sibira [<a href="#refs">4</a>]. Srebrna breza je drvo koje dostiže visinu od 30 m, a maljava breza retko prelazi
-                visinu od 20 m. Iz razloga što može da toleriše širok spektar prirodnih uslova, a pre svega siromašna tla,
+                uglavnom od 90 do 100 godina), relativno male lišćarske vrste koje se javljaju u većem delu Evrope sve
+                do
+                centralnog Sibira [<a href="#refs">4</a>]. Srebrna breza je drvo koje dostiže visinu od 30 m, a maljava
+                breza retko prelazi
+                visinu od 20 m. Iz razloga što može da toleriše širok spektar prirodnih uslova, a pre svega siromašna
+                tla,
                 breza se često koristi za obnavljanje i poboljšanje tla, tako da se druge vrste drveća mogu posaditi
                 kasnije. Srebrna breza se koristi za pravljenje skupog furnira i ukrasnih proizvoda od drveta, dok se
                 maljava breza koristi za proizvodnju celuloze i jeftinog ogrevnog drveta. Breze rastu u planinskim
-                područjima, te su veom bitne u stabilizaciji tla i sprečavanju erozije zemljišta. [<a href="#refs">5</a>]</p>
+                područjima, te su veom bitne u stabilizaciji tla i sprečavanju erozije zemljišta. [<a href="#refs">5</a>]
+            </p>
         {% endif %}
 
-        <h2 class="p-3">{{"tree.querqus"|trans}}</h2>
+        <h2 class="p-3">{{ "tree.querqus"|trans }}</h2>
 
         <div class="row bg-light">
-            <div class="forest" style="background-image: url({{ asset('public/images/hrast.jpg') }})"></div>
+            <div class="forest"
+                 style="background-image: url({{ asset('public/images/trees/quercus_petraea.jpg') }})"></div>
         </div>
 
         {% if app.request.attributes.get('_locale') | default(default_locale) == 'en' %}
             <p class="p-3">
-                Sessile oak (Quercus petraea) is a species found throughout Europe, from Scandinavia to the
+                Sessile oak (<i>Quercus petraea</i>) is a species found throughout Europe, from Scandinavia to the
                 Iberian, Apennine and Balkan Peninsula. It loves light, fertile and often rocky backing. It
                 grows mainly on the slopes and on top of hills. A large amount of light also suits them. Pure
                 oak forests are very rarely encountered in nature, otherwise they are mainly consisted of
@@ -89,15 +105,106 @@
                 alcohol barrels, and throughout history have been used to build ships. [<a href="#refs">6</a>]
             </p>
         {% else %}
-            <p class="p-3">Hrast kitnjak (Quercus petraea) je vrsta koja se sreće širom Evrope, od Skandinavije do
+            <p class="p-3">Hrast kitnjak (<i>Quercus petraea</i>) je vrsta koja se sreće širom Evrope, od Skandinavije
+                do
                 Iberijskog,
                 Apeninskog i Balkanskog poluostrva. Voli svetlost, plodnu i često stenovitu podlogu. Raste uglavnom na
-                padinama i vrhovima brda. Odgovara im i velika količina svetlosti. Veoma retko se sreću čiste šume hrasta u
-                prirodnim uslovima, uglavnom čini mešovite šume sa grabom (Carpinus betulus), javorom (Acer campestre, Acer
-                platanoides) i dr. Sve veća potražnja za ovim drvetom i smanjenje prirodnih šuma, podstakli su razvoj
-                savremenog uzgoja. Hrast kitnjak se koristi kao kvalitetno ogrevno drvo, drvo za gradnju i nameštaj. Takođe
-                se od hrastovine prave veoma kvalitetna burad za vino i alkohol, a kroz istoriju se koristilo za izgradnju
+                padinama i vrhovima brda. Odgovara im i velika količina svetlosti. Veoma retko se sreću čiste šume
+                hrasta u
+                prirodnim uslovima, uglavnom čini mešovite šume sa grabom (<i>Carpinus betulus</i>), javorom (<i>Acer
+                    campestre, Acer
+                    platanoides</i>) i dr. Sve veća potražnja za ovim drvetom i smanjenje prirodnih šuma, podstakli su
+                razvoj
+                savremenog uzgoja. Hrast kitnjak se koristi kao kvalitetno ogrevno drvo, drvo za gradnju i nameštaj.
+                Takođe
+                se od hrastovine prave veoma kvalitetna burad za vino i alkohol, a kroz istoriju se koristilo za
+                izgradnju
                 brodova. [<a href="#refs">6</a>]
+            </p>
+        {% endif %}
+
+        <h2 class="p-3">{{ "tree.quercus_cerris"|trans }}</h2>
+
+        <div class="row bg-light">
+            <div class="forest"
+                 style="background-image: url({{ asset('public/images/trees/quercus_cerris.jpg') }})"></div>
+        </div>
+
+        {% if app.request.attributes.get('_locale') | default(default_locale) == 'en' %}
+            <p class="p-3">
+
+            </p>
+        {% else %}
+            <p class="p-3">
+                Cer (<i>Quercus cerris</i>) je poreklom iz Evrope i Male Azije i pokazuje snažnu morfološku
+                promenljivost i
+                ekološku prilagodljivost. Ima listopadne listove i jajolike žireve sa velikim kovrdžavim čašama, koje
+                sazrevaju u drugoj godini (septembar – oktobar). Može dostići 30–35 m visine, sa pravim stablom do 2 m
+                u prečniku i 5–5,5 m u obimu. Kruna je ovalna, široka i otvorena[<a href="#refs">7</a>]. Hrastovi su
+                neophodni sa stanovišta
+                kruženja hranljivih sastojaka (protok energije), dostupnosti svetlosti, očuvanja i rehabilitacije tla,
+                elastičnosti i zdravlja šumskog ekosistema. Takođe, oni doprinose funkcionalnoj, strukturnoj i
+                raznolikosti vrsta i produktivnosti ekosistema. Hrastovi imaju sposobnost da izvršavaju te funkcije
+                uglavnom zbog brze stope razgradnje listova i velikog variranja u oblicima i veličinama krunica. Pored
+                toga, cer igra važnu ulogu u popunjavanju praznina u ekosistemu.[<a href="#refs">8</a>]
+            </p>
+        {% endif %}
+
+
+        <h2 class="p-3">{{ "tree.acer_pseudoplatanus"|trans }}</h2>
+
+        <div class="row bg-light">
+            <div class="forest"
+                 style="background-image: url({{ asset('public/images/trees/acer_pseudoplatanus.jpg') }})"></div>
+        </div>
+
+        {% if app.request.attributes.get('_locale') | default(default_locale) == 'en' %}
+            <p class="p-3">
+
+            </p>
+        {% else %}
+            <p class="p-3">
+                Gorski javor (<i>Acer pseudoplatanus</i>) je listopadno drvo iz velike familije Sapindaceae, sa
+                primarnim
+                rasprostranjenjem u centralnoj, istočnoj i južnoj Evropi i delu Male Azije. Ova vrsta je mezofilnog
+                karaktera, i najčešće se javlja kao primešana u šumama bukve idući od brdskog pa sve do subalpijskog
+                pojasa, što govori o sposobnosti prilagođavanja različitim svetlosnim i temperaturnim režimima. Gotovo
+                da ne gradi čiste sastojine. Dobro podnosi senku i pod sklopom uspešno raste [<a href="#refs">9</a>].
+                Zahteva duboka i
+                humusom bogata zemljišta, različitog hemijskog karaktera i izražene tolerancije na alkalnost odnosno
+                kiselost tla. Široke amplitude u odnosu na geološku podlogu. Ne podnosi jedino tešku glinu.
+                Mezotermna vrsta, ali vrlo dobro prilagođena na aktuelne klimatske promene, i podnosi sušu [<a
+                        href="#refs">10</a>].
+            </p>
+        {% endif %}
+
+        <h2 class="p-3">{{ "tree.tilia_tomentosa"|trans }}</h2>
+
+        <div class="row bg-light">
+            <div class="forest"
+                 style="background-image: url({{ asset('public/images/trees/tilia_tomentosa.jpg') }})"></div>
+        </div>
+
+        {% if app.request.attributes.get('_locale') | default(default_locale) == 'en' %}
+            <p class="p-3">
+
+            </p>
+        {% else %}
+            <p class="p-3">
+                Rasprostranjenost joj je veoma velika, pronalazi se u Evropi, Americi, Aziji. U našim krajevima od
+                prirode
+                rastu bela ili srebrna lipa (<i>Tilia tomentosa</i>), krupnolisna lipa (<i>Tilia platyphyllos</i>) i
+                sitnolisna lipa (<i>Tilia
+                    cordata</i>). Može da gradi čiste šume koje se u Srbiji nalaze u brdskim predelima Lajkovca, Avale i
+                Vršačkog
+                brega. Češće obrazuje mešovite sastojine sa bukvom, hrastom i javorom [<a href="#refs">11</a>]. Srebrna
+                lipa na području
+                Turske se pronalazi na nadmorskim visinama između 60m i 350m nadmorske visine. Današnja
+                rasprostranjenost proteže se od Balkanskog poluostrva do mađarskih ravnica, Karpata i dalje na istok do
+                poluostrva Krim i Anadolije na nadmorskim visinama do 1200m nadmorske visine[<a href="#refs">12</a>].
+                Spada u vrste koje
+                se smatraju odličnom zaštitom za poboljšanje kvaliteta vazduha i uspešno uspevaju u urbanism
+                sredinama gde je prisutno zagađenje vazduha. [<a href="#refs">13</a>]
             </p>
         {% endif %}
 
@@ -123,6 +230,43 @@
                     distribution, habitat, usage and threaths, P. Beck, G. Caudillo, D. De Rigo, W. Tinner, 2016.</p>
                 <p>[6] European Atlas of Forest Tree Species: Quercus robur and Quercus petraea in Europe: distribution,
                     habitat, usage and threaths, E. Eaton, G. Caudillo, S. Oliveira, D. De Rigo, 2016.</p>
+                <p>
+                    [7]
+                    <a target="_blank"
+                       href="http://www.euforgen.org/fileadmin//templates/euforgen.org/upload/Publications/Technical_g uidelines/Technical_guidelines_Quercus_cerris.pdf">
+                        www.euforgen.org/fileadmin//templates/euforgen.org/upload/Publications/Technical_g
+                        uidelines/Technical_guidelines_Quercus_cerris.pdf
+                    </a>
+                </p>
+                <p>
+                    [8]
+                    <a target="_blank"
+                       href="https://www.researchgate.net/publication/304004384_Changing_the_Potential_Distribution_of_Turkey_Oak_Quercus_cerris_L_under_Climate_Change_in_Turkey">
+                        www.researchgate.net/publication/304004384_Changing_the_Potential_Distribution_of_Turkey_Oak_Quercus_cerris_L_under_Climate_Change_in_Turkey
+                    </a>
+                </p>
+                <p>
+                    [9]
+                    Cvjetićanin R., Brujić J., Perović M., Stupar V. (2015): Dendrologija. Šumarski fakulteti, 564 str.
+                    Beograd-Banjaluka.
+                </p>
+                <p>
+                    [10]
+                    Milivoje Ćirić (1986), Pedologija, Zavod za udžbenike i nastavna sredstva, Sarajevo
+                </p>
+                <p>
+                    [11]
+                    <a target="_blank" href="https://dpps.org.rs/priroda/srebrna-lipa-tilia-tomentosa/">dpps.org.rs/priroda/srebrna-lipa-tilia-tomentosa</a>
+                </p>
+                <p>
+                    [12]
+                    <a target="_blank"
+                       href="https://bioresources.cnr.ncsu.edu/resources/soil-characteristics-of-natural-silver-linden-tilia-tomentosa-moench-populations">bioresources.cnr.ncsu.edu/resources/soil-characteristics-of-natural-silver-linden-tilia-tomentosa-moench-populations</a>
+                </p>
+                <p>
+                    [13]
+                    <a target="_blank" href="http://hdl.handle.net/11772/3258">hdl.handle.net/11772/3258</a>
+                </p>
             </div>
         </section>
     </div>
